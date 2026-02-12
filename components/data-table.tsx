@@ -2,20 +2,11 @@
 
 import * as React from "react"
 import { IconCircleCheckFilled, IconLoader } from "@tabler/icons-react"
+import Link from "next/link"
 
 import { api } from "@/lib/api"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
 import {
   Table,
   TableBody,
@@ -25,21 +16,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-type ChildDetails = {
-  id: number
-  fullName: string
-  birthDate: string
-  language: string
-  age: number | null
-}
-
 type LeadUserRow = {
   parentId: number
   parentFullName: string
   childrenCount: number
   createdAt: string
   status: "warm" | "hot"
-  children: ChildDetails[]
 }
 
 type LeadUsersResponse = {
@@ -67,62 +49,6 @@ function StatusBadge({ status }: { status: "warm" | "hot" }) {
       <IconLoader />
       Тёплый
     </Badge>
-  )
-}
-
-function DetailsDrawer({ row }: { row: LeadUserRow }) {
-  return (
-    <Drawer direction="right">
-      <DrawerTrigger asChild>
-        <Button variant="outline" size="sm">
-          Подробнее
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>{row.parentFullName}</DrawerTitle>
-          <DrawerDescription>
-            Дети родителя: {row.children.length}. Статус лида:{" "}
-            {row.status === "hot" ? "горячий" : "тёплый"}.
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="px-4 pb-2">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ФИО ребёнка</TableHead>
-                <TableHead>Дата рождения</TableHead>
-                <TableHead>Язык</TableHead>
-                <TableHead>Возраст</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {row.children.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={4} className="text-muted-foreground text-center">
-                    У этого родителя пока нет детей в системе.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                row.children.map((child) => (
-                  <TableRow key={child.id}>
-                    <TableCell>{child.fullName}</TableCell>
-                    <TableCell>{formatDate(child.birthDate)}</TableCell>
-                    <TableCell>{child.language}</TableCell>
-                    <TableCell>{child.age ?? "—"}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">Закрыть</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
   )
 }
 
@@ -188,7 +114,9 @@ export function DataTable() {
                     <StatusBadge status={row.status} />
                   </TableCell>
                   <TableCell className="text-right">
-                    <DetailsDrawer row={row} />
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/parent/${row.parentId}`}>Открыть</Link>
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))

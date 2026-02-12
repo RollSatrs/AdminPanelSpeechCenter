@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Button,  } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   Field,
   FieldDescription,
@@ -10,18 +10,16 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { sizes } from "@/shared/constants/css"
-import { api, apiPost } from "@/lib/api"
+import { api } from "@/lib/api"
 import { useEffect, useState } from "react"
-import { ButtonGroup } from "./ui/button-group"
 import { Spinner } from "./ui/spinner"
-import { Role } from "@/shared/interface/role.interface"
+import { AxiosError } from "axios"
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"form">) {
   const [fullname, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [role, setRole] = useState<Role>("student")
 
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -54,16 +52,20 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
     }
 
     try {
-      await api.post("/auth/register", { fullname, email, password, role })
+      await api.post("/auth/register", { fullname, email, password })
       alert("Регистрация успешна!")
       // setFullName("")
       // setEmail("")
       // setPassword("")
       // setConfirmPassword("")
       // setRole("student")
-    } catch (err: any) {
+    } catch (err) {
+      const message =
+        err instanceof AxiosError
+          ? String(err.response?.data?.message ?? "Ошибка регистрации")
+          : "Ошибка регистрации"
       console.error(err)
-      setError(err.response?.data?.message)
+      setError(message)
     } finally {
       setLoading(false)
     }

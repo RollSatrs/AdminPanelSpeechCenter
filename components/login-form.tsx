@@ -13,6 +13,7 @@ import { useEffect, useState } from "react"
 import { api } from "@/lib/api"
 import { Spinner } from "./ui/spinner"
 import { useRouter } from "next/navigation"
+import { AxiosError } from "axios"
 
 export function LoginForm({
   className,
@@ -53,9 +54,13 @@ export function LoginForm({
       // setPassword("")
       // setConfirmPassword("")
       // setRole("student")
-    } catch (err: any) {
+    } catch (err) {
+      const message =
+        err instanceof AxiosError
+          ? String(err.response?.data?.message ?? "Ошибка входа")
+          : "Ошибка входа"
       console.error(err)
-      setError(err.response?.data?.message)
+      setError(message)
     } finally {
       setLoading(false)
     }

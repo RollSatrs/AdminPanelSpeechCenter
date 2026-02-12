@@ -12,9 +12,11 @@ export async function ensureAuthTables() {
       "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       "email" varchar(255) NOT NULL UNIQUE,
       "password_hash" varchar(255) NOT NULL,
+      "last_login_at" timestamp with time zone,
       "created_at" timestamp with time zone DEFAULT now() NOT NULL
     );
   `);
+  await db.execute(sql`ALTER TABLE "admins" ADD COLUMN IF NOT EXISTS "last_login_at" timestamp with time zone;`);
 
   await db.execute(sql`
     CREATE TABLE IF NOT EXISTS "admin_sessions" (

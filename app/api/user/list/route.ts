@@ -10,24 +10,6 @@ import {
 import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth";
 import { db } from "@/lib/db";
 
-function calculateAge(birthDate: string): number | null {
-  const date = new Date(birthDate);
-  if (Number.isNaN(date.getTime())) return null;
-  const now = new Date();
-  let age = now.getFullYear() - date.getFullYear();
-  const beforeBirthday =
-    now.getMonth() < date.getMonth() ||
-    (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
-  if (beforeBirthday) age--;
-  return age >= 0 ? age : null;
-}
-
-function languageLabel(lang: "ru" | "kz" | "both"): string {
-  if (lang === "ru") return "Русский";
-  if (lang === "kz") return "Казахский";
-  return "Два языка";
-}
-
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get(AUTH_COOKIE)?.value;
@@ -84,13 +66,7 @@ export async function GET(req: NextRequest) {
 
         const parentLeads = leads.filter((l) => l.parentId === parentId);
         const status = parentLeads.some((l) => l.status === "hot") ? "hot" : "warm";
-        const childrenList = (childrenByParent.get(parentId) ?? []).map((child) => ({
-          id: child.id,
-          fullName: child.fullname,
-          birthDate: child.birthDate,
-          language: languageLabel(child.language),
-          age: calculateAge(String(child.birthDate)),
-        }));
+        const childrenList = childrenByParent.get(parentId) ?? [];
 
         return {
           parentId,
@@ -98,7 +74,6 @@ export async function GET(req: NextRequest) {
           childrenCount: childrenList.length,
           createdAt: parent.createdAt,
           status,
-          children: childrenList,
         };
       })
       .filter(Boolean)

@@ -5,6 +5,7 @@ import {
   IconLogout,
 } from "@tabler/icons-react"
 import { useRouter } from "next/navigation"
+import { api } from "@/lib/api"
 
 import {
   Avatar,
@@ -37,6 +38,14 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
   const router = useRouter()
+  async function handleLogout() {
+    try {
+      await api.post("/auth/logout")
+    } finally {
+      router.replace("/login")
+      router.refresh()
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -81,7 +90,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push("/login")}>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Выйти
             </DropdownMenuItem>

@@ -4,9 +4,10 @@ import * as React from "react"
 import {
   IconHome,
   IconUsers,
-  IconClipboardList,
   IconLayoutDashboard,
   IconUserPlus,
+  IconFileAnalytics,
+  IconChartBar,
 } from "@tabler/icons-react"
 
 
@@ -35,17 +36,22 @@ const navMain = [
         url: "/sessions/users",
         icon: IconUsers,
       },
-      {
-        title: "Тестовые сессии",
-        url: "/sessions/tests",
-        icon: IconClipboardList,
-      },
     ],
   },
   {
     title: "Лиды",
     url: "/leads",
     icon: IconUserPlus,
+  },
+  {
+    title: "Тесты",
+    url: "/tests",
+    icon: IconFileAnalytics,
+  },
+  {
+    title: "Аналитика",
+    url: "/analytics",
+    icon: IconChartBar,
   },
 ]
 

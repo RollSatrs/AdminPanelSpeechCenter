@@ -38,6 +38,11 @@ export async function POST(req: Request) {
     const tokenHash = hashSessionToken(rawToken);
     const expiresAt = buildSessionExpiryDate();
 
+    await db
+      .update(adminsTable)
+      .set({ lastLoginAt: new Date() })
+      .where(eq(adminsTable.id, admin.id));
+
     await db.insert(adminSessionsTable).values({
       adminId: admin.id,
       tokenHash,
