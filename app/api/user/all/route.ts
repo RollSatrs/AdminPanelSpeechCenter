@@ -42,15 +42,26 @@ export async function GET(req: NextRequest) {
       .from(parentsTable)
       .where(gte(parentsTable.createdAt, thirtyDaysAgo));
 
-    const [warmLeadsRow] = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(leadsTable)
-      .where(eq(leadsTable.status, "warm"));
-
     const [hotLeadsRow] = await db
-      .select({ count: sql<number>`count(*)` })
+      .select({ count: sql<number>`count(distinct ${leadsTable.parentId})` })
       .from(leadsTable)
       .where(eq(leadsTable.status, "hot"));
+
+    const [warmLeadsRow] = await db
+      .select({
+        count: sql<number>`count(distinct ${leadsTable.parentId})`,
+      })
+      .from(leadsTable)
+      .where(
+        and(
+          eq(leadsTable.status, "warm"),
+          sql`${leadsTable.parentId} not in (
+            select distinct ${leadsTable.parentId}
+            from ${leadsTable}
+            where ${leadsTable.status} = 'hot'
+          )`
+        )
+      );
 
     return NextResponse.json({
       totalUsers: Number(totalUsersRow?.count ?? 0),
