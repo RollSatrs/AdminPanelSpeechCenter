@@ -9,7 +9,6 @@ import { SectionCards } from "@/components/section-cards"
 import { DataTable } from "@/components/data-table"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { SiteHeader } from "@/components/site-header"
-import data from "./data.json"
 
 type MeResponse = {
   ok: boolean
@@ -66,7 +65,7 @@ export default function Page() {
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive />
               </div>
-              <DataTable data={data} />
+              <DataTable />
             </div>
           </div>
         </div>
