@@ -27,21 +27,9 @@ const navMain = [
     icon: IconHome,
   },
   {
-    title: "Сессии",
-    url: "#",
-    icon: IconLayoutDashboard,
-    items: [
-      {
-        title: "Пользовательские сессии",
-        url: "/sessions/users",
-        icon: IconUsers,
-      },
-    ],
-  },
-  {
-    title: "Лиды",
-    url: "/leads",
-    icon: IconUserPlus,
+    title: "Пользовательские сессии",
+    url: "/sessions/users",
+    icon: IconUsers,
   },
   {
     title: "Тесты",
