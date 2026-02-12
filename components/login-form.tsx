@@ -7,11 +7,10 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
-import { api, apiPost } from "@/lib/api"
+import { api } from "@/lib/api"
 import { Spinner } from "./ui/spinner"
 import { useRouter } from "next/navigation"
 
@@ -134,10 +133,7 @@ export function LoginForm({
             Войти через GitHub
           </Button> */}
           <FieldDescription className="text-center">
-            Нет аккаунта?{" "}
-            <a href="signup" className="underline underline-offset-4">
-              Создать
-            </a>
+            Публичная регистрация отключена. Обратитесь к администратору.
           </FieldDescription>
         </Field>
       </FieldGroup>

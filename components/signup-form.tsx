@@ -78,24 +78,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
             Заполните форму ниже, чтобы создать аккаунт
           </p>
         </div>
-        <div className="flex justify-center">
-          <ButtonGroup >
-            <Button
-              onClick={() =>setRole("student")}
-              variant={role === "student" ? "default" : "outline"}
-              type="button"
-            >
-                Студент
-            </Button>
-            <Button
-              onClick={() =>setRole("schoolkid")}
-              variant={role === "schoolkid" ? "default" : "outline"}
-              type="button"
-            >
-              Школьник
-            </Button>
-          </ButtonGroup>
-        </div>
         <Field>
           <FieldLabel htmlFor="name">Полное имя</FieldLabel>
           <Input

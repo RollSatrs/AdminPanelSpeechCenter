@@ -2,23 +2,37 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { User, BookOpen, LogOut } from "lucide-react"
-import { api, apiGet } from "@/lib/api"
+import { api } from "@/lib/api"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+import { SectionCards } from "@/components/section-cards"
+import { DataTable } from "@/components/data-table"
+import { ChartAreaInteractive } from "@/components/chart-area-interactive"
+import { SiteHeader } from "@/components/site-header"
+import data from "./data.json"
 
+type MeResponse = {
+  ok: boolean
+  admin: {
+    id: number
+    email: string
+    name?: string | null
+  }
+}
 
-export default function HomePage() {
+export default function Page() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  const [admin, setAdmin] = useState<MeResponse["admin"] | null>(null)
 
   useEffect(() => {
     async function checkAuth() {
       try {
-        await api.get("/auth/me", {withCredentials: true}) // ⬅ проверка JWT
+        const res = await api.get<MeResponse>("/auth/me", { withCredentials: true })
+        setAdmin(res.data.admin)
         setLoading(false)
       } catch {
-        router.push("/login") // ❌ нет токена → логин
+        router.push("/login")
       }
     }
 
@@ -34,59 +48,29 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white p-10">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-10">
-        <h1 className="text-2xl font-semibold">Temple Dashboard</h1>
-
-        <Button variant="ghost" className="text-white">
-          <LogOut className="mr-2 h-4 w-4" />
-          Выйти
-        </Button>
-      </div>
-
-      {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <DashboardCard
-          icon={<User />}
-          title="Профиль"
-          description="Личные данные и роль"
-        />
-
-        <DashboardCard
-          icon={<BookOpen />}
-          title="Обучение"
-          description="Курсы и задания"
-        />
-
-        <DashboardCard
-          icon={<BookOpen />}
-          title="Прогресс"
-          description="Результаты и баллы"
-        />
-      </div>
-    </main>
-  )
-}
-
-function DashboardCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode
-  title: string
-  description: string
-}) {
-  return (
-    <Card className="bg-white/5 border-white/10 text-white">
-      <CardHeader>
-        <div className="mb-2 text-white/70">{icon}</div>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="text-white/60">
-        {description}
-      </CardContent>
-    </Card>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar admin={admin} variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
+              <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
+              </div>
+              <DataTable data={data} />
+            </div>
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
