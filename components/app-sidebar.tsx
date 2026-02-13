@@ -6,6 +6,7 @@ import {
   IconUsers,
   IconFileAnalytics,
   IconChartBar,
+  IconBrandWhatsapp,
 } from "@tabler/icons-react"
 
 
@@ -38,6 +39,11 @@ const navMain = [
     title: "Аналитика",
     url: "/analytics",
     icon: IconChartBar,
+  },
+  {
+    title: "WhatsApp Bot",
+    url: "/bot",
+    icon: IconBrandWhatsapp,
   },
 ]
 
