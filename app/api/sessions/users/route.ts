@@ -20,6 +20,7 @@ function stepLabel(step: string): string {
     childAge: "Возраст ребёнка",
     confirmData: "Подтверждение данных",
     mainMenu: "Главное меню",
+    chooseChild: "Выбор ребёнка",
     testQuestion: "Прохождение теста",
   }
   return labels[step] ?? step
