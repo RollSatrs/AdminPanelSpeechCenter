@@ -1,38 +1,17 @@
-import { and, eq, gt, inArray } from "drizzle-orm";
+import { inArray } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import {
-  adminSessionsTable,
-  adminsTable,
   childrenTable,
   leadsTable,
   parentsTable,
 } from "@/db/schema";
-import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 import { db } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.cookies.get(AUTH_COOKIE)?.value;
-    if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const tokenHash = hashSessionToken(token);
-    const now = new Date();
-
-    const session = await db
-      .select({ adminId: adminSessionsTable.adminId })
-      .from(adminSessionsTable)
-      .innerJoin(adminsTable, eq(adminsTable.id, adminSessionsTable.adminId))
-      .where(
-        and(
-          eq(adminSessionsTable.tokenHash, tokenHash),
-          gt(adminSessionsTable.expiresAt, now)
-        )
-      )
-      .limit(1);
-
-    if (session.length === 0) {
+    const authorized = await isAuthorizedAdmin(req);
+    if (!authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
@@ -51,6 +30,14 @@ export async function GET(req: NextRequest) {
       .from(childrenTable)
       .where(inArray(childrenTable.parentId, parentIds));
 
+    const statusByParent = new Map<number, "warm" | "hot">();
+    for (const lead of leads) {
+      const current = statusByParent.get(lead.parentId);
+      if (lead.status === "hot" || current === undefined) {
+        statusByParent.set(lead.parentId, lead.status);
+      }
+    }
+
     const parentMap = new Map(parents.map((p) => [p.id, p]));
     const childrenByParent = new Map<number, typeof children>();
     for (const child of children) {
@@ -64,8 +51,7 @@ export async function GET(req: NextRequest) {
         const parent = parentMap.get(parentId);
         if (!parent) return null;
 
-        const parentLeads = leads.filter((l) => l.parentId === parentId);
-        const status = parentLeads.some((l) => l.status === "hot") ? "hot" : "warm";
+        const status = statusByParent.get(parentId) ?? "warm";
         const childrenList = childrenByParent.get(parentId) ?? [];
 
         return {

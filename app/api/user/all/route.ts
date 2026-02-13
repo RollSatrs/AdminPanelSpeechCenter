@@ -1,33 +1,13 @@
-import { and, eq, gt, gte, sql } from "drizzle-orm";
-import { adminSessionsTable, adminsTable, leadsTable, parentsTable } from "@/db/schema";
-import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth";
+import { and, eq, gte, sql } from "drizzle-orm";
+import { leadsTable, parentsTable } from "@/db/schema";
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.cookies.get(AUTH_COOKIE)?.value;
-    if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    // проверка, что cookie соответствует живой сессии
-    const tokenHash = hashSessionToken(token);
-    const now = new Date();
-
-    const session = await db
-      .select({ adminId: adminSessionsTable.adminId })
-      .from(adminSessionsTable)
-      .innerJoin(adminsTable, eq(adminsTable.id, adminSessionsTable.adminId))
-      .where(
-        and(
-          eq(adminSessionsTable.tokenHash, tokenHash),
-          gt(adminSessionsTable.expiresAt, now)
-        )
-      )
-      .limit(1);
-
-    if (session.length === 0) {
+    const authorized = await isAuthorizedAdmin(req);
+    if (!authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 

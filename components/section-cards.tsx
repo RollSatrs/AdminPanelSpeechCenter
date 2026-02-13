@@ -54,11 +54,11 @@ export function SectionCards() {
   }, [])
 
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
-        <CardHeader>
+        <CardHeader className="pb-1">
           <CardDescription>Всего пользователей</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl tracking-tight">
             {summary.totalUsers.toLocaleString("ru-RU")}
           </CardTitle>
           <CardAction>
@@ -68,14 +68,14 @@ export function SectionCards() {
             </Badge>
           </CardAction>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="flex-col items-start gap-1 text-xs text-muted-foreground">
           <div className="line-clamp-1 flex gap-2 font-medium">Активная база родителей</div>
           <div className="text-muted-foreground">Уникальные профили родителей в системе</div>
         </CardFooter>
       </Card>
 
       <Card className="@container/card">
-        <CardHeader>
+        <CardHeader className="pb-1">
           <CardDescription>Новые за 30 дней</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {summary.newUsers30d.toLocaleString("ru-RU")}
@@ -87,7 +87,7 @@ export function SectionCards() {
             </Badge>
           </CardAction>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="flex-col items-start gap-1 text-xs text-muted-foreground">
           <div className="line-clamp-1 flex gap-2 font-medium">
             Прирост базы пользователей 
           </div>
@@ -96,7 +96,7 @@ export function SectionCards() {
       </Card>
 
       <Card className="@container/card">
-        <CardHeader>
+        <CardHeader className="pb-1">
           <CardDescription>Тёплые лиды</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {summary.warmLeads.toLocaleString("ru-RU")}
@@ -105,14 +105,14 @@ export function SectionCards() {
             <Badge variant="outline">Warm</Badge>
           </CardAction>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="flex-col items-start gap-1 text-xs text-muted-foreground">
           <div className="line-clamp-1 flex gap-2 font-medium">Потенциальный интерес к работе</div>
           <div className="text-muted-foreground">Требуют дальнейшего контакта и сопровождения</div>
         </CardFooter>
       </Card>
 
       <Card className="@container/card">
-        <CardHeader>
+        <CardHeader className="pb-1">
           <CardDescription>Горячие лиды</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {summary.hotLeads.toLocaleString("ru-RU")}
@@ -124,7 +124,7 @@ export function SectionCards() {
             </Badge>
           </CardAction>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="flex-col items-start gap-1 text-xs text-muted-foreground">
           <div className="line-clamp-1 flex gap-2 font-medium">Высокая готовность к следующему шагу</div>
           <div className="text-muted-foreground">Пользователи после завершения теста</div>
         </CardFooter>

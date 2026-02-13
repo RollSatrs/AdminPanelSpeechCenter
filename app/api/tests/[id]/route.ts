@@ -1,15 +1,12 @@
-import { and, asc, eq, gt, inArray } from "drizzle-orm"
+import { asc, eq, inArray } from "drizzle-orm"
 import { NextRequest, NextResponse } from "next/server"
 import {
-  adminSessionsTable,
-  adminsTable,
   answersTable,
   questionsTable,
   testResultRulesTable,
   testsTable,
 } from "@/db/schema"
-import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth"
-import { ensureAuthTables } from "@/lib/auth-db"
+import { isAuthorizedAdmin } from "@/lib/admin-auth"
 import { db } from "@/lib/db"
 
 type QuestionInput = {
@@ -36,23 +33,6 @@ type TestPayload = {
   ageTo: number
   questions: QuestionInput[]
   rules: RuleInput[]
-}
-
-async function authorize(req: NextRequest): Promise<boolean> {
-  await ensureAuthTables()
-  const token = req.cookies.get(AUTH_COOKIE)?.value
-  if (!token) return false
-
-  const tokenHash = hashSessionToken(token)
-  const now = new Date()
-  const session = await db
-    .select({ adminId: adminSessionsTable.adminId })
-    .from(adminSessionsTable)
-    .innerJoin(adminsTable, eq(adminsTable.id, adminSessionsTable.adminId))
-    .where(and(eq(adminSessionsTable.tokenHash, tokenHash), gt(adminSessionsTable.expiresAt, now)))
-    .limit(1)
-
-  return session.length > 0
 }
 
 function normalizePayload(raw: unknown): TestPayload {
@@ -137,7 +117,7 @@ function parseId(params: { id: string }): number | null {
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const ok = await authorize(req)
+    const ok = await isAuthorizedAdmin(req)
     if (!ok) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const resolvedParams = await params
@@ -210,7 +190,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const ok = await authorize(req)
+    const ok = await isAuthorizedAdmin(req)
     if (!ok) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const resolvedParams = await params

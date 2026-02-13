@@ -1,15 +1,12 @@
-import { and, asc, eq, gt } from "drizzle-orm"
+import { asc, sql } from "drizzle-orm"
 import { NextRequest, NextResponse } from "next/server"
 import {
-  adminSessionsTable,
-  adminsTable,
   answersTable,
   questionsTable,
   testResultRulesTable,
   testsTable,
 } from "@/db/schema"
-import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth"
-import { ensureAuthTables } from "@/lib/auth-db"
+import { isAuthorizedAdmin } from "@/lib/admin-auth"
 import { db } from "@/lib/db"
 
 type QuestionInput = {
@@ -36,23 +33,6 @@ type TestPayload = {
   ageTo: number
   questions: QuestionInput[]
   rules: RuleInput[]
-}
-
-async function authorize(req: NextRequest): Promise<boolean> {
-  await ensureAuthTables()
-  const token = req.cookies.get(AUTH_COOKIE)?.value
-  if (!token) return false
-
-  const tokenHash = hashSessionToken(token)
-  const now = new Date()
-  const session = await db
-    .select({ adminId: adminSessionsTable.adminId })
-    .from(adminSessionsTable)
-    .innerJoin(adminsTable, eq(adminsTable.id, adminSessionsTable.adminId))
-    .where(and(eq(adminSessionsTable.tokenHash, tokenHash), gt(adminSessionsTable.expiresAt, now)))
-    .limit(1)
-
-  return session.length > 0
 }
 
 function normalizePayload(raw: unknown): TestPayload {
@@ -129,7 +109,7 @@ async function findOverlappingTest(ageFrom: number, ageTo: number) {
 
 export async function GET(req: NextRequest) {
   try {
-    const ok = await authorize(req)
+    const ok = await isAuthorizedAdmin(req)
     if (!ok) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const tests = await db
@@ -137,30 +117,34 @@ export async function GET(req: NextRequest) {
       .from(testsTable)
       .orderBy(asc(testsTable.ageFrom), asc(testsTable.id))
 
-    const list = await Promise.all(
-      tests.map(async (test) => {
-        const questions = await db
-          .select({ id: questionsTable.id })
-          .from(questionsTable)
-          .where(eq(questionsTable.testId, test.id))
-
-        const rules = await db
-          .select({ id: testResultRulesTable.id })
-          .from(testResultRulesTable)
-          .where(eq(testResultRulesTable.testId, test.id))
-
-        return {
-          id: test.id,
-          name: test.name,
-          ageFrom: test.ageFrom,
-          ageTo: test.ageTo,
-          createdAt: test.createdAt,
-          updatedAt: test.updatedAt,
-          questionsCount: questions.length,
-          rulesCount: rules.length,
-        }
+    const questionCounts = await db
+      .select({
+        testId: questionsTable.testId,
+        count: sql<number>`count(*)::int`,
       })
-    )
+      .from(questionsTable)
+      .groupBy(questionsTable.testId)
+    const ruleCounts = await db
+      .select({
+        testId: testResultRulesTable.testId,
+        count: sql<number>`count(*)::int`,
+      })
+      .from(testResultRulesTable)
+      .groupBy(testResultRulesTable.testId)
+
+    const questionsCountByTestId = new Map(questionCounts.map((row) => [row.testId, row.count]))
+    const rulesCountByTestId = new Map(ruleCounts.map((row) => [row.testId, row.count]))
+
+    const list = tests.map((test) => ({
+      id: test.id,
+      name: test.name,
+      ageFrom: test.ageFrom,
+      ageTo: test.ageTo,
+      createdAt: test.createdAt,
+      updatedAt: test.updatedAt,
+      questionsCount: Number(questionsCountByTestId.get(test.id) ?? 0),
+      rulesCount: Number(rulesCountByTestId.get(test.id) ?? 0),
+    }))
 
     return NextResponse.json({ items: list })
   } catch (error) {
@@ -171,7 +155,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const ok = await authorize(req)
+    const ok = await isAuthorizedAdmin(req)
     if (!ok) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const payload = normalizePayload(await req.json())

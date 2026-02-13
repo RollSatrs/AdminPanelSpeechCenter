@@ -4,8 +4,6 @@ import * as React from "react"
 import {
   IconHome,
   IconUsers,
-  IconLayoutDashboard,
-  IconUserPlus,
   IconFileAnalytics,
   IconChartBar,
 } from "@tabler/icons-react"
@@ -52,9 +50,9 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> &{
 
 export function AppSidebar({admin, ...props}: AppSidebarProps) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" className="supports-[backdrop-filter]:backdrop-blur-md" {...props}>
       <SidebarHeader>
-        <div className="px-2 py-1 text-sm font-semibold">SpeechCenter Admin</div>
+        <div className="px-2 py-1 text-sm font-semibold tracking-tight">SpeechCenter Admin</div>
       </SidebarHeader>
 
       <SidebarContent>

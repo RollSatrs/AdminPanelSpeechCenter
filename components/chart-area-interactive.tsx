@@ -106,7 +106,7 @@ export function ChartAreaInteractive() {
 
   return (
     <Card className="@container/card">
-      <CardHeader>
+      <CardHeader className="pb-1">
         <CardTitle>Родители и дети по дням</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
@@ -152,8 +152,8 @@ export function ChartAreaInteractive() {
           </Select>
         </CardAction>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+      <CardContent className="px-2 pt-3 sm:px-3 sm:pt-3">
+        <ChartContainer config={chartConfig} className="aspect-auto h-[230px] w-full">
           <AreaChart data={filteredData}>
             <defs>
               <linearGradient id="fillParents" x1="0" y1="0" x2="0" y2="1">

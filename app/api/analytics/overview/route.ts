@@ -1,15 +1,12 @@
-import { and, eq, gt, gte, lt, inArray } from "drizzle-orm"
+import { and, eq, gte, inArray, lt } from "drizzle-orm"
 import { NextRequest, NextResponse } from "next/server"
 import {
-  adminSessionsTable,
-  adminsTable,
   leadsTable,
   parentsTable,
   testResultRulesTable,
   testSessionTable,
 } from "@/db/schema"
-import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth"
-import { ensureAuthTables } from "@/lib/auth-db"
+import { isAuthorizedAdmin } from "@/lib/admin-auth"
 import { db } from "@/lib/db"
 
 function monthShortRu(date: Date): string {
@@ -66,20 +63,9 @@ function previousMonth(monthValue: string): string {
 
 export async function GET(req: NextRequest) {
   try {
-    await ensureAuthTables()
-    const token = req.cookies.get(AUTH_COOKIE)?.value
-    if (!token) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
-
-    const tokenHash = hashSessionToken(token)
     const now = new Date()
-    const authSession = await db
-      .select({ adminId: adminSessionsTable.adminId })
-      .from(adminSessionsTable)
-      .innerJoin(adminsTable, eq(adminsTable.id, adminSessionsTable.adminId))
-      .where(and(eq(adminSessionsTable.tokenHash, tokenHash), gt(adminSessionsTable.expiresAt, now)))
-      .limit(1)
-
-    if (authSession.length === 0) {
+    const authorized = await isAuthorizedAdmin(req)
+    if (!authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 

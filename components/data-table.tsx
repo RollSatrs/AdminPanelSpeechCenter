@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconCircleCheckFilled, IconLoader } from "@tabler/icons-react"
+import { IconFlame, IconLoader } from "@tabler/icons-react"
 import Link from "next/link"
 
 import { api } from "@/lib/api"
@@ -38,7 +38,7 @@ function StatusBadge({ status }: { status: "warm" | "hot" }) {
   if (status === "hot") {
     return (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        <IconCircleCheckFilled className="fill-red-500 dark:fill-red-400" />
+        <IconFlame className="text-orange-500 dark:text-orange-400" />
         Горячий
       </Badge>
     )
@@ -86,15 +86,15 @@ export function DataTable() {
 
   return (
     <div className="px-4 lg:px-6">
-      <div className="overflow-hidden rounded-lg border">
+      <div className="overflow-hidden rounded-xl border border-border/70 bg-card/82 shadow-sm supports-[backdrop-filter]:bg-card/72 supports-[backdrop-filter]:backdrop-blur-md">
         <Table>
-          <TableHeader className="bg-muted">
+          <TableHeader className="bg-muted/60">
             <TableRow>
-              <TableHead>ФИО родителя</TableHead>
-              <TableHead>Кол-во детей</TableHead>
-              <TableHead>Дата создания</TableHead>
-              <TableHead>Статус лида</TableHead>
-              <TableHead className="text-right">Действия</TableHead>
+              <TableHead className="h-9 text-xs uppercase tracking-wide text-muted-foreground">ФИО родителя</TableHead>
+              <TableHead className="h-9 text-xs uppercase tracking-wide text-muted-foreground">Кол-во детей</TableHead>
+              <TableHead className="h-9 text-xs uppercase tracking-wide text-muted-foreground">Дата создания</TableHead>
+              <TableHead className="h-9 text-xs uppercase tracking-wide text-muted-foreground">Статус лида</TableHead>
+              <TableHead className="h-9 text-right text-xs uppercase tracking-wide text-muted-foreground">Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -1,12 +1,7 @@
-import { and, eq, gt, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  adminSessionsTable,
-  adminsTable,
-  childrenTable,
-  parentsTable,
-} from "@/db/schema";
-import { AUTH_COOKIE, hashSessionToken } from "@/lib/auth";
+import { childrenTable, parentsTable } from "@/db/schema";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 import { db } from "@/lib/db";
 
 type DailyCountRow = {
@@ -16,27 +11,8 @@ type DailyCountRow = {
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.cookies.get(AUTH_COOKIE)?.value;
-    if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const tokenHash = hashSessionToken(token);
-    const now = new Date();
-
-    const session = await db
-      .select({ adminId: adminSessionsTable.adminId })
-      .from(adminSessionsTable)
-      .innerJoin(adminsTable, eq(adminsTable.id, adminSessionsTable.adminId))
-      .where(
-        and(
-          eq(adminSessionsTable.tokenHash, tokenHash),
-          gt(adminSessionsTable.expiresAt, now)
-        )
-      )
-      .limit(1);
-
-    if (session.length === 0) {
+    const authorized = await isAuthorizedAdmin(req);
+    if (!authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
