@@ -2,8 +2,18 @@ import "server-only";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
-export const AUTH_COOKIE = "admin_token";
-export const AUTH_SESSION_DAYS = 7;
+const defaultCookie = "admin_token";
+const defaultSessionDays = 7;
+
+function parseSessionDays(raw: string | undefined): number {
+  if (!raw) return defaultSessionDays;
+  const value = Number.parseInt(raw, 10);
+  if (!Number.isFinite(value) || value <= 0) return defaultSessionDays;
+  return value;
+}
+
+export const AUTH_COOKIE = process.env.AUTH_COOKIE?.trim() || defaultCookie;
+export const AUTH_SESSION_DAYS = parseSessionDays(process.env.AUTH_SESSION_DAYS);
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
