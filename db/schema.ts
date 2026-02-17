@@ -100,6 +100,7 @@ export const userSessionTable = pgTable("user_sessions", {
   childrenId: integer('children_id').references(() => childrenTable.id, { onDelete: 'cascade' }),
   status: userSessionsEnum("status").default("registered").notNull(),
   step: varchar("step", { length: 64 }).notNull(),
+  uiLanguage: varchar("ui_language", { length: 16 }),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
 })

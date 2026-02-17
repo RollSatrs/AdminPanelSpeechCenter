@@ -59,7 +59,9 @@ export function LoginForm({
         err instanceof AxiosError
           ? String(err.response?.data?.message ?? "Ошибка входа")
           : "Ошибка входа"
-      console.error(err)
+      if (!(err instanceof AxiosError && err.response?.status === 401)) {
+        console.error(err)
+      }
       setError(message)
     } finally {
       setLoading(false)

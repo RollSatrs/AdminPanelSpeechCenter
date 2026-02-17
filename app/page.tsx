@@ -29,9 +29,10 @@ export default function Page() {
       try {
         const res = await api.get<MeResponse>("/auth/me", { withCredentials: true })
         setAdmin(res.data.admin)
-        setLoading(false)
       } catch {
         router.push("/login")
+      } finally {
+        setLoading(false)
       }
     }
 
