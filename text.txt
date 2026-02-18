@@ -1,0 +1,1 @@
+cd /path/SpeechCenter/admin && HASH=$(node -e "const b=require('bcryptjs'); process.stdout.write(b.hashSync('Admin12345!',10));") && psql "postgresql://USER:PASS@localhost:5432/SpeechCenter" -c "INSERT INTO admins (email, password_hash) VALUES ('admin@speechcenter.local', '$HASH');"
