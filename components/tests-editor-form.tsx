@@ -236,7 +236,7 @@ export function TestsEditorForm({ mode, testId, initial }: TestsEditorFormProps)
       } else {
         await api.put(`/tests/${testId}`, draft)
       }
-      router.push("/tests")
+      router.push("/admin/tests")
       router.refresh()
     } catch (err) {
       setError(normalizeErrorMessage(err))
@@ -435,7 +435,7 @@ export function TestsEditorForm({ mode, testId, initial }: TestsEditorFormProps)
       ) : null}
 
       <div className="flex items-center justify-between">
-        <Button variant="outline" onClick={() => router.push("/tests")}>
+        <Button variant="outline" onClick={() => router.push("/admin/tests")}>
           Отмена
         </Button>
         <div className="flex gap-2">

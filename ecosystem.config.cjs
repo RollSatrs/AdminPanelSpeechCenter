@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "speechcenter-bot",
-      cwd: "./bot",
+      cwd: "../bot",
       script: "npm",
       args: "run dev",
       env: {

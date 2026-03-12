@@ -48,7 +48,7 @@ export function LoginForm({
 
     try {
       await api.post("/auth/login", { email, password })
-      router.push("/")
+      router.push("/admin")
       // setFullName("")
       // setEmail("")
       // setPassword("")

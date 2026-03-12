@@ -76,7 +76,7 @@ export default async function ParentPage({ params }: ParentPageProps) {
   const cookieStore = await cookies();
   const token = cookieStore.get(AUTH_COOKIE)?.value;
   if (!token) {
-    redirect("/login");
+    redirect("/admin/login");
   }
 
   const tokenHash = hashSessionToken(token);
@@ -92,7 +92,7 @@ export default async function ParentPage({ params }: ParentPageProps) {
     .limit(1);
 
   if (session.length === 0) {
-    redirect("/login");
+    redirect("/admin/login");
   }
 
   const parents = await db
@@ -196,7 +196,7 @@ export default async function ParentPage({ params }: ParentPageProps) {
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold">Карточка родителя</h1>
             <Button asChild variant="outline">
-              <Link href="/">Назад</Link>
+              <Link href="/admin">Назад</Link>
             </Button>
           </div>
 

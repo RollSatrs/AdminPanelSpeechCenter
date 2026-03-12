@@ -106,7 +106,7 @@ export default function EditTestPage() {
       } catch (err) {
         if (cancelled) return
         if (err instanceof AxiosError && err.response?.status === 401) {
-          router.push("/login")
+          router.push("/admin/login")
           return
         }
         setError("Не удалось загрузить тест.")

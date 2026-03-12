@@ -29,7 +29,7 @@ export default function NewTestPage() {
         if (cancelled) return
         setAdmin(me.data.admin)
       } catch {
-        if (!cancelled) router.push("/login")
+        if (!cancelled) router.push("/admin/login")
       } finally {
         if (!cancelled) setLoading(false)
       }

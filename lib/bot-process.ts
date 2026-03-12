@@ -1,8 +1,6 @@
 import "server-only";
 import { promisify } from "node:util";
 import { execFile } from "node:child_process";
-import path from "node:path";
-
 const execFileAsync = promisify(execFile);
 
 const BOT_PROCESS_NAME = "speechcenter-bot";
@@ -21,17 +19,13 @@ export type BotProcessStatus = {
   message?: string;
 };
 
-function getWorkspaceRoot() {
-  return path.resolve(process.cwd(), "..");
-}
-
 function getEcosystemPath() {
-  return path.join(getWorkspaceRoot(), "ecosystem.config.cjs");
+  return `${process.cwd()}/ecosystem.config.cjs`;
 }
 
 async function runPm2(args: string[]) {
   return execFileAsync("pm2", args, {
-    cwd: getWorkspaceRoot(),
+    cwd: process.cwd(),
     env: process.env,
   });
 }

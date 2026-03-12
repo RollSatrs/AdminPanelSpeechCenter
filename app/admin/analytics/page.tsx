@@ -150,7 +150,7 @@ export default function AnalyticsPage() {
       try {
         await load(year, month)
       } catch {
-        if (!cancelled) router.push("/login")
+        if (!cancelled) router.push("/admin/login")
       } finally {
         if (!cancelled) setLoading(false)
       }

@@ -73,7 +73,7 @@ export default function UserSessionsPage() {
         setAdmin(me.data.admin)
         setItems(sessions.data.items ?? [])
       } catch {
-        if (!cancelled) router.push("/login")
+        if (!cancelled) router.push("/admin/login")
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -182,7 +182,7 @@ export default function UserSessionsPage() {
                       <TableCell>{formatDateTime(item.startedAt)}</TableCell>
                       <TableCell className="text-right">
                         <Button asChild variant="outline" size="sm">
-                          <Link href={`/parent/${item.parentId}`}>Открыть</Link>
+                          <Link href={`/admin/parent/${item.parentId}`}>Открыть</Link>
                         </Button>
                       </TableCell>
                     </TableRow>

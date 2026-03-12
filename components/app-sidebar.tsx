@@ -22,27 +22,27 @@ import {
 const navMain = [
   {
     title: "Главная",
-    url: "/",
+    url: "/admin",
     icon: IconHome,
   },
   {
     title: "Пользовательские сессии",
-    url: "/sessions/users",
+    url: "/admin/sessions/users",
     icon: IconUsers,
   },
   {
     title: "Тесты",
-    url: "/tests",
+    url: "/admin/tests",
     icon: IconFileAnalytics,
   },
   {
     title: "Аналитика",
-    url: "/analytics",
+    url: "/admin/analytics",
     icon: IconChartBar,
   },
   {
     title: "WhatsApp Bot",
-    url: "/bot",
+    url: "/admin/bot",
     icon: IconBrandWhatsapp,
   },
 ]

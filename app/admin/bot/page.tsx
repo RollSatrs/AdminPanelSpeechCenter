@@ -86,7 +86,7 @@ export default function BotPage() {
       try {
         await load()
       } catch {
-        if (!cancelled) router.push("/login")
+        if (!cancelled) router.push("/admin/login")
       } finally {
         if (!cancelled) setLoading(false)
       }

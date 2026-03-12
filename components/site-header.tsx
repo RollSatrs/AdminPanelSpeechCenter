@@ -12,7 +12,7 @@ export function SiteHeader() {
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         <div className="ml-auto">
-          <ThemeToggle />
+          <ThemeToggle/>
         </div>
       </div>
     </header>

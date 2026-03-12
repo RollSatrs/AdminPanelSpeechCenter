@@ -54,7 +54,7 @@ export default function TestsPage() {
         setAdmin(me.data.admin)
         setTests(res.data.items ?? [])
       } catch {
-        if (!cancelled) router.push("/login")
+        if (!cancelled) router.push("/admin/login")
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -86,7 +86,7 @@ export default function TestsPage() {
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold">Тесты</h1>
             <Button asChild>
-              <Link href="/tests/new">Добавить тест</Link>
+              <Link href="/admin/tests/new">Добавить тест</Link>
             </Button>
           </div>
 
@@ -119,7 +119,7 @@ export default function TestsPage() {
                       <TableCell>{test.rulesCount}</TableCell>
                       <TableCell className="text-right">
                         <Button asChild size="sm" variant="outline">
-                          <Link href={`/tests/${test.id}`}>Редактировать</Link>
+                          <Link href={`/admin/tests/${test.id}`}>Редактировать</Link>
                         </Button>
                       </TableCell>
                     </TableRow>

@@ -42,7 +42,7 @@ export function NavUser({
     try {
       await api.post("/auth/logout")
     } finally {
-      router.replace("/login")
+      router.replace("/admin/login")
       router.refresh()
     }
   }

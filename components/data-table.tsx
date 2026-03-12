@@ -115,7 +115,7 @@ export function DataTable() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/parent/${row.parentId}`}>Открыть</Link>
+                      <Link href={`/admin/parent/${row.parentId}`}>Открыть</Link>
                     </Button>
                   </TableCell>
                 </TableRow>
