@@ -177,3 +177,27 @@
 .animate-appear-up {
   animation: appear-up 320ms ease-out both;
 }
+
+@keyframes lesson-text-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-lesson-text {
+  animation: lesson-text-enter 260ms ease-out both;
+}
+
+.lesson-delay-1 { animation-delay: 0ms; }
+.lesson-delay-2 { animation-delay: 70ms; }
+.lesson-delay-3 { animation-delay: 140ms; }
+.lesson-delay-4 { animation-delay: 210ms; }
+.lesson-delay-5 { animation-delay: 280ms; }
+.lesson-delay-6 { animation-delay: 350ms; }
+.lesson-delay-7 { animation-delay: 420ms; }
+.lesson-delay-8 { animation-delay: 490ms; }
