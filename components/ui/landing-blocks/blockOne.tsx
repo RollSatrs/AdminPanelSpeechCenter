@@ -28,6 +28,11 @@ export default function BlockOne() {
   const t = blockOneCopy[lang]
   const titleLines = t.title.split("\n")
   const specialistLines = t.specialists.split("\n")
+  const whatsappMessage =
+    lang === "ru"
+      ? "Здравствуйте! Хочу записаться на консультацию в SOZLAB.kids."
+      : "Сәлеметсіз бе! SOZLAB.kids орталығына консультацияға жазылғым келеді."
+  const whatsappHref = `https://api.whatsapp.com/send/?phone=%2B77474381892&text=${encodeURIComponent(whatsappMessage)}&type=phone_number&app_absent=0`
 
   return (
     <section className="relative min-h-[600px] overflow-hidden rounded-[38px] md:min-h-[724px] md:rounded-[74px]">
@@ -52,8 +57,13 @@ export default function BlockOne() {
               {t.description}
             </p>
 
-            <Button className="min-h-12 rounded-full bg-[#FF7857] px-8 text-[16px] font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6b46] sm:px-10 md:rounded-3xl md:px-6 md:py-5 md:text-xl">
-              {t.cta}
+            <Button
+              asChild
+              className="min-h-12 rounded-full bg-[#FF7857] px-8 text-[16px] font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6b46] sm:px-10 md:rounded-3xl md:px-6 md:py-5 md:text-xl"
+            >
+              <a href={whatsappHref} target="_blank" rel="noreferrer">
+                {t.cta}
+              </a>
             </Button>
           </div>
 
@@ -74,7 +84,7 @@ export default function BlockOne() {
 
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:justify-end md:gap-6">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/sozlab.kids?igsh=M2lpczkwN2N1bDE5"
                 className="flex items-center gap-1 text-[14px] text-white sm:text-[15px]"
               >
                 <span>instagram</span>
@@ -82,7 +92,7 @@ export default function BlockOne() {
               </a>
 
               <a
-                href="https://wa.me/77000000000"
+                href="https://api.whatsapp.com/send/?phone=%2B77474381892&text&type=phone_number&app_absent=0&utm_source=ig"
                 className="flex items-center gap-1 text-[14px] text-white sm:text-[15px]"
               >
                 <span>whatsapp</span>

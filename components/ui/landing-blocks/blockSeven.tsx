@@ -151,6 +151,11 @@ export default function BlockSeven() {
   }[lang]
   const localizedTeams = teams[lang]
   const [expandedIds, setExpandedIds] = useState<string[]>([])
+  const whatsappMessage =
+    lang === "ru"
+      ? "Здравствуйте! Хочу записаться на консультацию в SOZLAB.kids."
+      : "Сәлеметсіз бе! SOZLAB.kids орталығына консультацияға жазылғым келеді."
+  const whatsappHref = `https://api.whatsapp.com/send/?phone=%2B77474381892&text=${encodeURIComponent(whatsappMessage)}&type=phone_number&app_absent=0`
 
   const toggleDescription = (id: string) => {
     setExpandedIds((prev) =>
@@ -246,8 +251,13 @@ export default function BlockSeven() {
                     ) : null}
 
                     <div className="mt-4 flex justify-center">
-                      <Button className="rounded-full bg-[#FF7857] px-8 text-[14px] text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6f4c]">
-                        {t.cta}
+                      <Button
+                        asChild
+                        className="rounded-full bg-[#FF7857] px-8 text-[14px] text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6f4c]"
+                      >
+                        <a href={whatsappHref} target="_blank" rel="noreferrer">
+                          {t.cta}
+                        </a>
                       </Button>
                     </div>
                   </div>

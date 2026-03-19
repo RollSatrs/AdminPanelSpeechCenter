@@ -12,8 +12,8 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com", icon: Instagram },
-  { label: "WhatsApp", href: "https://wa.me/77000000000", icon: WhatsAppIcon },
+  { label: "Instagram", href: "https://www.instagram.com/sozlab.kids?igsh=M2lpczkwN2N1bDE5", icon: Instagram },
+  { label: "WhatsApp", href: "https://api.whatsapp.com/send/?phone=%2B77474381892&text&type=phone_number&app_absent=0&utm_source=ig", icon: WhatsAppIcon },
 ] as const
 
 export default function FooterBlock() {
@@ -77,8 +77,8 @@ export default function FooterBlock() {
         <div className="space-y-4">
           <h3 className="text-[18px] font-semibold text-black/45">{t.contacts}</h3>
           <div className="flex flex-col gap-3 text-[18px] leading-[1.5] text-black/85">
-            <a href="tel:+77000000000" className="transition-colors hover:text-[#FF7857]">
-              +7 (700) 000-00-00
+            <a href="tel:+77474381892" className="transition-colors hover:text-[#FF7857]">
+              +7 (747) 438-18-92
             </a>
             <a
               href="mailto:hello@sozlabkids.kz"

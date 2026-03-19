@@ -71,7 +71,7 @@ export default function ContactMapBlock() {
 
             <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 py-3 text-[15px] text-white/90 backdrop-blur-sm">
               <Phone className="h-4 w-4" />
-              +7 (700) 000-00-00
+              +7 (747) 438-18-92
             </div>
           </div>
 
