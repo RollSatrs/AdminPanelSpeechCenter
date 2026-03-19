@@ -194,6 +194,21 @@
   animation: lesson-text-enter 260ms ease-out both;
 }
 
+@keyframes language-switch {
+  from {
+    opacity: 0.72;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-language-switch {
+  animation: language-switch 320ms ease-out both;
+}
+
 .lesson-delay-1 { animation-delay: 0ms; }
 .lesson-delay-2 { animation-delay: 70ms; }
 .lesson-delay-3 { animation-delay: 140ms; }

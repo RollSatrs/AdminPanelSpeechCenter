@@ -1,4 +1,5 @@
 import { HeaderCustom } from "@/components/custom-header"
+import LandingLanguageTransition from "@/components/landing-language-transition"
 import { LanguageProvider } from "@/components/language-provider"
 
 export default function LandingLayout({
@@ -9,8 +10,10 @@ export default function LandingLayout({
   return (
     <LanguageProvider>
       <main className="min-h-screen bg-white px-[29px] py-[14px] text-black ">
-        <HeaderCustom />
-        <div className="pt-8">{children}</div>
+        <LandingLanguageTransition>
+          <HeaderCustom />
+          <div className="pt-8">{children}</div>
+        </LandingLanguageTransition>
       </main>
     </LanguageProvider>
   )
