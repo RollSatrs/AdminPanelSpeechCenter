@@ -2,11 +2,15 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react"
 
 import { Button } from "../button"
 import { LessonFormat } from "@/app/types/lesson-formats.types"
 import { useLanguage } from "@/components/language-provider"
+
+const COLLAPSED_OVERLAY_HEIGHT = 64
+const EXPANDED_OVERLAY_HEIGHT = 280
+const OVERLAY_TOGGLE_THRESHOLD = 115
 
 const lessonFormatCopy = {
   ru: [
@@ -106,46 +110,48 @@ export default function BlockFive() {
     ru: {
       prev: "Предыдущий формат занятия",
       next: "Следующий формат занятия",
+      hide: "Скрыть",
+      readMore: "Читать дальше",
     },
     kz: {
       prev: "Алдыңғы сабақ форматы",
       next: "Келесі сабақ форматы",
+      hide: "Жасыру",
+      readMore: "Толығырақ",
     },
   }[lang]
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isOverlayExpanded, setIsOverlayExpanded] = useState(false)
   const activeFormat = lessonFormats[activeIndex]
+  const isOverlayOverflowing =
+    activeFormat.section2.overlayText.length > OVERLAY_TOGGLE_THRESHOLD
 
   const goPrev = () => {
     setActiveIndex((prev) => (prev - 1 + lessonFormats.length) % lessonFormats.length)
+    setIsOverlayExpanded(false)
   }
 
   const goNext = () => {
     setActiveIndex((prev) => (prev + 1) % lessonFormats.length)
+    setIsOverlayExpanded(false)
   }
 
   return (
-    <section id="working" className="scroll-mt-28 flex items-start justify-between px-8">
+    <section id="working" className="scroll-mt-28 flex flex-col gap-6 px-0 md:px-8 xl:flex-row xl:items-start xl:justify-between">
       <span id="prices" className="block h-0 w-0 overflow-hidden scroll-mt-28" aria-hidden="true" />
-      <div className="flex flex-col items-start">
-        <span className="mb-8 rounded-full border border-black/20 px-4 py-3 leading-none text-black">
+      <div className="flex flex-col items-center text-center xl:items-start xl:text-left">
+        <span className="mb-5 w-full rounded-full px-4 py-3 text-[15px] leading-none text-black md:mb-8 xl:w-auto">
           {activeFormat.section1.badge}
         </span>
         <p
           key={`${activeFormat.id}-s1-title`}
-          className="mb-[60px] max-w-[431px] text-[22px] animate-lesson-text lesson-delay-2"
+          className="mb-6 max-w-[431px] text-[18px] leading-[1.45] animate-lesson-text lesson-delay-2 md:text-[20px] xl:mb-[60px] xl:text-[22px]"
         >
           {activeFormat.section1.title}
         </p>
-        <Button
-          key={`${activeFormat.id}-s1-cta`}
-          className="animate-lesson-text lesson-delay-3 rounded-full bg-[#FF7857] px-4 py-5 font-bold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6b46]"
-        >
-          {activeFormat.section1.cta}
-          <ArrowUpRight className="ml-2 h-5 w-5" />
-        </Button>
       </div>
 
-      <div className="relative h-[254px] w-[350px] overflow-hidden rounded-[29px]">
+      <div className="relative order-2 h-[260px] w-full overflow-hidden rounded-[28px] md:h-[300px] xl:order-none xl:h-[254px] xl:w-[350px] xl:rounded-[29px]">
         <Image
           key={`${activeFormat.id}-s2-image`}
           src={activeFormat.section2.image}
@@ -154,8 +160,8 @@ export default function BlockFive() {
           className="object-cover"
         />
 
-        <div className="absolute inset-0 flex flex-col p-3">
-          <span className="inline-block w-fit rounded-full bg-[#dadada6d] px-3.5 py-1 text-[14px] text-white backdrop-blur-[10px]">
+        <div className="absolute inset-0 flex flex-col bg-gradient-to-t from-black/40 via-black/5 to-transparent p-4 xl:p-3">
+          <span className="inline-block w-fit rounded-full bg-[#dadada6d] px-3.5 py-1 text-[13px] text-white backdrop-blur-[10px] xl:text-[14px]">
             <span
               key={`${activeFormat.id}-s2-badge-text`}
               className="inline-block animate-lesson-text lesson-delay-4"
@@ -165,23 +171,51 @@ export default function BlockFive() {
           </span>
 
           <div className="mt-auto flex items-end justify-between gap-4">
-            <p
-              key={`${activeFormat.id}-s2-overlay`}
-              className="max-w-[242px] text-[14px] text-white animate-lesson-text lesson-delay-5"
-            >
-              {activeFormat.section2.overlayText}
-            </p>
+            <div className="max-w-[240px] xl:max-w-[228px]">
+              <div
+                className="overflow-hidden transition-[max-height,opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{
+                  maxHeight: isOverlayExpanded
+                    ? `${EXPANDED_OVERLAY_HEIGHT}px`
+                    : `${COLLAPSED_OVERLAY_HEIGHT}px`,
+                  opacity: isOverlayExpanded ? 1 : 0.92,
+                  transform: isOverlayExpanded ? "translateY(0px)" : "translateY(-2px)",
+                }}
+              >
+                <p
+                  key={`${activeFormat.id}-s2-overlay`}
+                  className="text-[15px] leading-[1.45] text-white animate-lesson-text lesson-delay-5 xl:text-[14px]"
+                >
+                  {activeFormat.section2.overlayText}
+                </p>
+              </div>
 
-            <Button className="h-8 w-8 rounded-full bg-[#FF7857] p-0 text-white transition-all duration-300 ease-out hover:scale-105 hover:bg-[#ff6b46]">
+              {isOverlayOverflowing ? (
+                <button
+                  type="button"
+                  onClick={() => setIsOverlayExpanded((prev) => !prev)}
+                  className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-white/90 transition-all duration-300 ease-out hover:text-white"
+                >
+                  <span>{isOverlayExpanded ? navLabels.hide : navLabels.readMore}</span>
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-300 ${
+                      isOverlayExpanded ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              ) : null}
+            </div>
+
+            <Button className="h-10 w-10 rounded-full bg-[#FF7857] p-0 text-white transition-all duration-300 ease-out hover:scale-105 hover:bg-[#ff6b46] xl:h-8 xl:w-8">
               <ArrowUpRight className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-[350px]">
-        <div className="flex flex-col items-start gap-2.5">
-          <div className="relative h-[140px] w-[350px] overflow-hidden rounded-[29px]">
+      <div className="order-3 w-full xl:order-none xl:max-w-[350px]">
+        <div className="flex flex-col items-stretch gap-3">
+          <div className="relative hidden h-[140px] w-[350px] overflow-hidden rounded-[29px] xl:block">
             <Image
               src={activeFormat.section2.image}
               alt={activeFormat.section3.formatTitle}
@@ -206,14 +240,29 @@ export default function BlockFive() {
             </div>
           </div>
 
-          <div className="flex flex-col items-start">
+          <div className="rounded-[26px] bg-white p-5 shadow-[0_12px_30px_rgba(0,0,0,0.06)] xl:rounded-none xl:bg-transparent xl:p-0 xl:shadow-none">
+            <div className="mb-3 xl:hidden">
+              <span className="inline-flex rounded-full bg-[#D8CEC6]/90 px-3 py-1 text-[13px] text-white">
+                {activeFormat.section3.badge}
+              </span>
+            </div>
+            <div className="mb-3 xl:hidden text-[18px] font-medium text-black">
+              {activeFormat.section3.formatTitle}
+            </div>
             <p
               key={`${activeFormat.id}-s3-description`}
-              className="text-[14px] animate-lesson-text lesson-delay-8"
+              className="text-[15px] leading-[1.5] animate-lesson-text lesson-delay-8 xl:text-[14px]"
             >
               {activeFormat.section3.description}
             </p>
-            <div className="mt-4 flex items-center gap-3">
+            <Button
+              key={`${activeFormat.id}-s3-cta`}
+              className="mt-5 w-fit rounded-full bg-[#FF7857] px-5 py-3.5 font-bold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6b46]"
+            >
+              {activeFormat.section1.cta}
+              <ArrowUpRight className="ml-2 h-5 w-5" />
+            </Button>
+            <div className="mt-4 flex items-center justify-center gap-3 xl:justify-start">
               <Button
                 variant="outline"
                 className="h-[29px] w-[29px] rounded-full border-[#D4D4D4] bg-transparent p-0 text-black transition-all duration-300 ease-out hover:scale-105 hover:border-[#BDBDBD] hover:bg-transparent"

@@ -30,47 +30,52 @@ export default function BlockOne() {
   const specialistLines = t.specialists.split("\n")
 
   return (
-    <section className="relative min-h-[724px] overflow-hidden rounded-[74px]">
+    <section className="relative min-h-[600px] overflow-hidden rounded-[38px] md:min-h-[724px] md:rounded-[74px]">
       <Image
         src="/main.png"
         alt=""
         fill
         priority
-        className="h-[724px] w-full object-cover"
+        className="h-full w-full object-cover object-center"
       />
 
       <div className="absolute inset-0 bg-[rgba(116,116,116,0.18)] backdrop-blur-[10px]">
-        <div className="flex h-full flex-col px-8 pb-10 pt-[150px] text-white">
+        <div className="flex h-full flex-col px-5 pb-6 pt-20 text-white sm:px-6 md:px-8 md:pb-10 md:pt-[150px]">
           <div className="mx-auto flex max-w-[960px] flex-col items-center text-center">
-            <h1 className="w-full max-w-[960px] pb-4 text-[38px] font-bold leading-[1.2]">
+            <h1 className="w-full max-w-[960px] pb-4 text-[26px] font-bold leading-[1.15] sm:text-[30px] md:text-[38px] md:leading-[1.2]">
               {titleLines[0]}
               <br />
               {titleLines[1]}
             </h1>
 
-            <p className="w-full max-w-[697px] pb-8 text-[19px] leading-[1.5] text-white/70">
+            <p className="w-full max-w-[697px] pb-6 text-[15px] leading-[1.5] text-white/80 sm:text-[17px] md:pb-8 md:text-[19px] md:text-white/70">
               {t.description}
             </p>
 
-            <Button className="rounded-3xl bg-[#FF7857] px-6 py-5 text-xl text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6b46]">
+            <Button className="min-h-12 rounded-full bg-[#FF7857] px-8 text-[16px] font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[#ff6b46] sm:px-10 md:rounded-3xl md:px-6 md:py-5 md:text-xl">
               {t.cta}
             </Button>
           </div>
 
-          <div className="mt-auto flex w-full items-end justify-between text-white">
-            <div className="flex items-center gap-3">
-              <span className="text-left text-[14px] leading-[1.2]">
-                {specialistLines[0]}
-                <br />
-                {specialistLines[1]}
+          <div className="mt-auto flex w-full flex-col items-center gap-4 pt-6 text-white md:flex-row md:items-end md:justify-between md:pt-0">
+            <div className="flex items-center justify-center gap-3">
+              <span className="max-w-[220px] text-center text-[13px] leading-[1.25] md:max-w-none md:text-left md:text-[14px]">
+                <span className="md:hidden">
+                  {lang === "ru" ? "Опытные специалисты" : "Тәжірибелі мамандар"}
+                </span>
+                <span className="hidden md:inline">
+                  {specialistLines[0]}
+                  <br />
+                  {specialistLines[1]}
+                </span>
               </span>
               <AvatarGroupCountExample />
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:justify-end md:gap-6">
               <a
                 href="https://instagram.com"
-                className="flex items-center gap-1 text-white"
+                className="flex items-center gap-1 text-[14px] text-white sm:text-[15px]"
               >
                 <span>instagram</span>
                 <ExternalLink className="h-4 w-4" />
@@ -78,7 +83,7 @@ export default function BlockOne() {
 
               <a
                 href="https://wa.me/77000000000"
-                className="flex items-center gap-1 text-white"
+                className="flex items-center gap-1 text-[14px] text-white sm:text-[15px]"
               >
                 <span>whatsapp</span>
                 <ExternalLink className="h-4 w-4" />

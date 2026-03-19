@@ -20,11 +20,11 @@ export default function BlockTwo() {
   const t = blockTwoCopy[lang]
 
   return (
-    <div className="flex flex-col gap-10 md:items-start md:justify-between md:flex-row">
-      <span className="rounded-full border border-black/20 px-4 py-3 leading-none text-black">
+    <div className="flex flex-col items-center gap-10 text-center md:flex-row md:items-start md:justify-between md:text-left">
+      <span className="flex w-full items-center justify-center rounded-full px-4 py-3 leading-none text-black md:w-auto md:justify-start">
         {t.badge}
       </span>
-      <p className="max-h-[128px] max-w-[492px] px-14 leading-[1.3] text-black">
+      <p className="max-w-[492px] leading-[1.45] text-black md:px-14 md:leading-[1.3]">
         {t.text}
       </p>
     </div>

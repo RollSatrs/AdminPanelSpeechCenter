@@ -184,7 +184,7 @@ export default function BlockNine() {
 
   return (
     <section id="FAQ" className="scroll-mt-28 flex w-full flex-col items-center gap-5">
-      <h2 className="text-[36px] font-bold">{t.title}</h2>
+      <h2 className="text-center text-[36px] font-bold">{t.title}</h2>
       <p className="mb-[45px] w-[430px] text-center text-[18px]">
         {t.description}
       </p>

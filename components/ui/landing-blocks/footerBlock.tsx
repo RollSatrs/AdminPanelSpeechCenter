@@ -50,7 +50,7 @@ export default function FooterBlock() {
   }[lang]
   return (
     <footer id="contacts" className="scroll-mt-28 rounded-[40px] bg-white px-8 py-10 md:px-12 md:py-12">
-      <div className="grid gap-10 md:grid-cols-[1.4fr_0.8fr_0.9fr_1fr]">
+      <div className="grid justify-items-center gap-10 text-center md:grid-cols-[1.4fr_0.8fr_0.9fr_1fr] md:justify-items-start md:text-left">
         <div className="max-w-[320px]">
           <a href="/landing" className="inline-flex items-center gap-3">
             <span className="text-[34px] font-semibold leading-none text-black">
@@ -99,13 +99,13 @@ export default function FooterBlock() {
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col gap-5 border-t border-black/8 pt-6 md:flex-row md:items-center md:justify-between">
+      <div className="mt-10 flex flex-col items-center gap-5 border-t border-black/8 pt-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
         <div className="flex flex-col gap-1">
           <p className="text-[16px] text-black/55">{t.rights}</p>
           <p className="text-[14px] text-black/35">Made by Abai IT Valley</p>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center gap-4">
           {socialLinks.map((link) => {
             const Icon = link.icon
 

@@ -32,18 +32,18 @@ export default function BlockThree() {
   return (
     <section
       id="problems"
-      className="scroll-mt-28 flex justify-between rounded-[71px] border-2 border-[#E2E2E2] px-11 py-5"
+      className="scroll-mt-28 flex flex-col items-center gap-8 rounded-[40px] border-2 border-[#E2E2E2] px-6 py-8 text-center xl:flex-row xl:items-start xl:justify-between xl:gap-0 xl:rounded-[71px] xl:px-11 xl:py-5 xl:text-left"
     >
-      <div className="flex max-w-[464px] flex-col gap-y-4">
-        <h3 className="text-[48px]">{t.title}</h3>
-        <p className="text-[18px]">{t.description}</p>
+      <div className="flex max-w-[464px] flex-col items-center gap-y-4 xl:items-start">
+        <h3 className="text-[34px] leading-[1.1] xl:text-[48px]">{t.title}</h3>
+        <p className="text-[16px] leading-[1.5] xl:text-[18px]">{t.description}</p>
       </div>
-      <div className="h-83 w-[4px] rounded-full bg-[#FF7857]" />
-      <div className="flex max-w-[468px] flex-col gap-y-4">
+      <div className="h-[4px] w-full max-w-[240px] rounded-full bg-[#FF7857] xl:h-83 xl:w-[4px] xl:max-w-none" />
+      <div className="flex max-w-[468px] flex-col items-center gap-y-6 xl:items-start xl:gap-y-4">
         {t.items.map((item, index) => (
-          <div key={index}>
-            <span className="text-[32px]">{`0${index + 1}`}</span>
-            <p>{item}</p>
+          <div key={index} className="flex flex-col items-center xl:items-start">
+            <span className="text-[32px] xl:text-[32px]">{`0${index + 1}`}</span>
+            <p className="text-[16px] leading-[1.5] xl:text-base">{item}</p>
           </div>
         ))}
       </div>
