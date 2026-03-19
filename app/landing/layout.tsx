@@ -1,4 +1,5 @@
 import { HeaderCustom } from "@/components/custom-header"
+import { LanguageProvider } from "@/components/language-provider"
 
 export default function LandingLayout({
   children,
@@ -6,9 +7,11 @@ export default function LandingLayout({
   children: React.ReactNode
 }>) {
   return (
-    <main className="min-h-screen bg-white px-[29px] py-[14px] text-black ">
-      <HeaderCustom />
-      <div className="pt-8">{children}</div>
-    </main>
+    <LanguageProvider>
+      <main className="min-h-screen bg-white px-[29px] py-[14px] text-black ">
+        <HeaderCustom />
+        <div className="pt-8">{children}</div>
+      </main>
+    </LanguageProvider>
   )
 }
