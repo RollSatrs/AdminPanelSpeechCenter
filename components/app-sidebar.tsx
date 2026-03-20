@@ -7,6 +7,7 @@ import {
   IconFileAnalytics,
   IconChartBar,
   IconBrandWhatsapp,
+  IconClipboardText,
 } from "@tabler/icons-react"
 
 
@@ -29,6 +30,11 @@ const navMain = [
     title: "Пользовательские сессии",
     url: "/admin/sessions/users",
     icon: IconUsers,
+  },
+  {
+    title: "Заявки",
+    url: "/admin/leads",
+    icon: IconClipboardText,
   },
   {
     title: "Тесты",

@@ -13,7 +13,7 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 
 const socialLinks = [
   { label: "Instagram", href: "https://www.instagram.com/sozlab.kids?igsh=M2lpczkwN2N1bDE5", icon: Instagram },
-  { label: "WhatsApp", href: "https://api.whatsapp.com/send/?phone=%2B77474381892&text&type=phone_number&app_absent=0&utm_source=ig", icon: WhatsAppIcon },
+  { label: "WhatsApp", href: "https://api.whatsapp.com/send/?phone=%2B77764401070&text&type=phone_number&app_absent=0&utm_source=ig", icon: WhatsAppIcon },
 ] as const
 
 export default function FooterBlock() {
