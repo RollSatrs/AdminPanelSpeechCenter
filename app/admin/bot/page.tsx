@@ -33,12 +33,6 @@ type BotStatusResponse = {
   lastError: string | null
   heartbeatAt?: string | null
   updatedAt: string | null
-  process?: {
-    manager: "pm2"
-    available: boolean
-    state: "online" | "stopped" | "missing" | "unknown"
-    message?: string
-  }
 }
 
 function statusLabel(status: BotStatusResponse["status"]) {
@@ -114,7 +108,6 @@ export default function BotPage() {
 
   const isConnected = bot.status === "connected"
   const isWaitingQr = bot.status === "waiting_qr" && !!bot.qrDataUrl
-  const isProcessOnline = bot.process?.available && bot.process.state === "online"
   const canConnect =
     bot.status === "offline" ||
     bot.status === "stopped" ||
@@ -185,11 +178,6 @@ export default function BotPage() {
                     Обновлено: {new Date(bot.updatedAt).toLocaleString("ru-RU")}
                   </span>
                 ) : null}
-                {bot.process ? (
-                  <span className="text-muted-foreground text-xs">
-                    PM2: {bot.process.available ? bot.process.state : "недоступен"}
-                  </span>
-                ) : null}
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Button
@@ -210,7 +198,7 @@ export default function BotPage() {
                 <Button
                   variant="outline"
                   onClick={handleStop}
-                  disabled={!isProcessOnline || actionLoading || stopLoading}
+                  disabled={actionLoading || stopLoading}
                   className="min-w-40 border-red-300 text-red-600 hover:bg-red-50 dark:border-red-900/70 dark:text-red-400 dark:hover:bg-red-950/30"
                 >
                   {stopLoading ? (
@@ -225,11 +213,9 @@ export default function BotPage() {
               </div>
               {bot.lastError ? <p className="text-xs text-red-500">{bot.lastError}</p> : null}
               {actionError ? <p className="text-xs text-red-500">{actionError}</p> : null}
-              {bot.process?.message && !bot.process.available ? (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  PM2 недоступен: {bot.process.message}
-                </p>
-              ) : null}
+              <p className="text-xs text-muted-foreground">
+                Панель отправляет команды уже запущенному боту. Сам бот нужно запускать отдельно через `pnpm`.
+              </p>
             </CardContent>
           </Card>
 

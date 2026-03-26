@@ -1,8 +1,8 @@
+import crypto from "crypto";
 import { sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthorizedAdmin } from "@/lib/admin-auth";
 import { ensureBotRuntimeTable } from "@/lib/bot-runtime-db";
-import { stopBotProcess } from "@/lib/bot-process";
 import { db } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
@@ -11,24 +11,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  try {
-    await stopBotProcess();
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Не удалось остановить процесс бота";
-    return NextResponse.json({ message }, { status: 503 });
-  }
-
   await ensureBotRuntimeTable();
+  const token = crypto.randomUUID();
 
   await db.execute(sql`
     UPDATE "bot_runtime_state"
     SET
-      "status" = 'stopped',
-      "qr_data_url" = null,
-      "last_error" = null,
-      "updated_at" = now()
+      "control_action" = 'stop',
+      "control_token" = ${token},
+      "control_requested_at" = now(),
+      "control_processed_at" = null,
+      "control_result" = null
     WHERE "id" = 1;
   `);
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, token });
 }

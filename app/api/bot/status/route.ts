@@ -1,7 +1,6 @@
 import { sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthorizedAdmin } from "@/lib/admin-auth";
-import { getBotProcessStatus } from "@/lib/bot-process";
 import { ensureBotRuntimeTable } from "@/lib/bot-runtime-db";
 import { db } from "@/lib/db";
 
@@ -12,8 +11,6 @@ export async function GET(req: NextRequest) {
   }
 
   await ensureBotRuntimeTable();
-  const processStatus = await getBotProcessStatus();
-
   const rows = await db.execute(sql`
     SELECT
       "status",
@@ -49,7 +46,6 @@ export async function GET(req: NextRequest) {
       lastError: row?.last_error ?? null,
       heartbeatAt: row?.heartbeat_at ?? null,
       updatedAt: row?.updated_at ?? null,
-      process: processStatus,
     },
     {
       headers: {
