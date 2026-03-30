@@ -213,9 +213,6 @@ export default function BotPage() {
               </div>
               {bot.lastError ? <p className="text-xs text-red-500">{bot.lastError}</p> : null}
               {actionError ? <p className="text-xs text-red-500">{actionError}</p> : null}
-              <p className="text-xs text-muted-foreground">
-                Панель отправляет команды уже запущенному боту. Сам бот нужно запускать отдельно через `pnpm`.
-              </p>
             </CardContent>
           </Card>
 

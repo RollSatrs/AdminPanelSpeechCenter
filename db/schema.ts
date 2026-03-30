@@ -7,16 +7,18 @@ export const userSessionsEnum = pgEnum("user_session_status", ["registered", "te
 export const leadsEnum = pgEnum("lead", ["warm", "hot"])
 
 export const adminsTable = pgTable("admins", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  email: varchar({ length: 255 }).notNull().unique(),
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const adminSessionsTable = pgTable("admin_sessions", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  adminId: integer("admin_id").notNull().references(() => adminsTable.id, { onDelete: "cascade" }),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  adminId: integer("admin_id")
+    .notNull()
+    .references(() => adminsTable.id, { onDelete: "cascade" }),
   tokenHash: varchar("token_hash", { length: 255 }).notNull().unique(),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -120,4 +122,30 @@ export const leadsTable = pgTable("leads", {
   childrenId: integer('children_id').references(() => childrenTable.id, { onDelete: 'cascade' }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   status: leadsEnum("leads").notNull()
+})
+
+export const botRuntimeStateTable = pgTable("bot_runtime_state", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  status: varchar("status", { length: 32 }).notNull(),
+  qrDataUrl: varchar("qr_data_url"),
+  lastError: varchar("last_error"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  controlAction: varchar("control_action"),
+  controlToken: varchar("control_token", { length: 128 }),
+  controlRequestedAt: timestamp("control_requested_at", { withTimezone: true }),
+  controlProcessedAt: timestamp("control_processed_at", { withTimezone: true }),
+  controlResult: varchar("control_result", { length: 2048 }),
+  heartbeatAt: timestamp("heartbeat_at", { withTimezone: true }),
+});
+
+
+export const passwordResetTokens = pgTable("password_reset_tokens", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  adminId: integer("admin_id")
+    .notNull()
+    .references(() => adminsTable.id, { onDelete: "cascade" }),  
+  tokenHash: varchar("token_hash", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  usedAt: timestamp("used_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 })

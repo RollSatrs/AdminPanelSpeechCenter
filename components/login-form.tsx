@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -90,12 +91,12 @@ export function LoginForm({
         <Field>
           <div className="flex items-center">
             <FieldLabel htmlFor="password">Пароль</FieldLabel>
-            <a
-              href="#"
+            <Link
+              href="/admin/forgot-password"
               className="ml-auto text-sm underline-offset-4 hover:underline"
             >
               Забыли пароль?
-            </a>
+            </Link>
           </div>
           <Input
             id="password"
