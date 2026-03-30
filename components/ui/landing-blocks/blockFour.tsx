@@ -68,15 +68,15 @@ export default function BlockFour() {
   const t = blockFourCopy[lang]
 
   return (
-    <section id="help" className="scroll-mt-28 rounded-[71px] px-8 py-12 md:px-12 lg:px-16">
-      <h2 className="mx-auto mb-14 max-w-[760px] text-center text-[36px] font-bold leading-[1.2] text-black">
+    <section id="help" className="scroll-mt-28 rounded-[32px] px-4 py-10 md:px-12 lg:px-16 lg:rounded-[71px] max-[350px]:px-3">
+      <h2 className="mx-auto mb-10 max-w-[760px] text-center text-[28px] font-bold leading-[1.15] text-black md:mb-14 md:text-[36px]">
         {t.title}
       </h2>
 
-      <div className="mb-[72px] grid gap-12 md:grid-cols-2 xl:grid-cols-4 xl:gap-8">
+      <div className="mb-0 grid gap-10 md:mb-[72px] md:grid-cols-2 xl:grid-cols-4 xl:gap-8">
         {t.steps.map((step) => (
           <div key={step.number} className="flex flex-col items-center text-center">
-            <span className="mb-5 text-[36px] leading-none font-light text-black md:text-[54px]">
+            <span className="mb-4 text-[32px] leading-none font-light text-black md:mb-5 md:text-[54px]">
               {step.number}
             </span>
 
@@ -84,11 +84,11 @@ export default function BlockFour() {
               <span className={`h-[18px] w-[18px] rounded-full ${step.color}`} />
             </div>
 
-            <h3 className="mb-3 min-h-[56px] text-[22px] font-bold leading-[1.2] text-black">
+            <h3 className="mb-3 min-h-[48px] text-[20px] font-bold leading-[1.15] text-black md:min-h-[56px] md:text-[22px]">
               {step.title}
             </h3>
 
-            <p className="max-w-[260px] text-[17px] leading-[1.45] text-black/75">
+            <p className="max-w-[260px] text-[15px] leading-[1.45] text-black/75 md:text-[17px]">
               {step.text}
             </p>
           </div>

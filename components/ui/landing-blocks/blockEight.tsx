@@ -144,14 +144,14 @@ export default function BlockEight() {
   const reviews = reviewsByLang[lang]
 
   return (
-    <section id="reviews" className="scroll-mt-28 flex w-full flex-col items-center gap-12">
-      <h2 className="text-[36px] font-bold">{t.title}</h2>
+    <section id="reviews" className="scroll-mt-28 flex w-full flex-col items-center gap-10 md:gap-12">
+      <h2 className="text-[28px] font-bold md:text-[36px]">{t.title}</h2>
       <Carousel
         opts={{
           align: "start",
           containScroll: "trimSnaps",
         }}
-        className="w-full max-w-[1380px] px-12 py-4"
+        className="w-full max-w-[1380px] px-8 py-4 sm:px-12 max-[350px]:px-0"
       >
         <CarouselContent className="items-start">
           {reviews.map((review) => {
@@ -209,8 +209,8 @@ export default function BlockEight() {
             )
           })}
         </CarouselContent>
-        <CarouselPrevious className="left-0 border-[#D4D4D4] bg-white text-black hover:bg-white" />
-        <CarouselNext className="right-0 border-[#D4D4D4] bg-white text-black hover:bg-white" />
+        <CarouselPrevious className="left-0 border-[#D4D4D4] bg-white text-black hover:bg-white max-[350px]:-left-2" />
+        <CarouselNext className="right-0 border-[#D4D4D4] bg-white text-black hover:bg-white max-[350px]:-right-2" />
       </Carousel>
     </section>
   )

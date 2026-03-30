@@ -49,24 +49,24 @@ export default function FooterBlock() {
     },
   }[lang]
   return (
-    <footer id="contacts" className="scroll-mt-28 rounded-[40px] bg-white px-8 py-10 md:px-12 md:py-12">
+    <footer id="contacts" className="scroll-mt-28 rounded-[28px] bg-white px-4 py-8 md:rounded-[40px] md:px-12 md:py-12">
       <div className="grid justify-items-center gap-10 text-center md:grid-cols-[1.4fr_0.8fr_0.9fr_1fr] md:justify-items-start md:text-left">
         <div className="max-w-[320px]">
           <a href="/landing" className="inline-flex items-center gap-3">
-            <span className="text-[34px] font-semibold leading-none text-black">
+            <span className="text-[28px] font-semibold leading-none text-black md:text-[34px]">
               <span className="text-[#1AC1B9]">SOZLAB</span>
               <span className="text-[#FF7857]">.kids</span>
             </span>
           </a>
 
-          <p className="mt-5 text-[18px] leading-[1.45] text-black/80">
+          <p className="mt-4 text-[15px] leading-[1.45] text-black/80 md:mt-5 md:text-[18px]">
             {t.description}
           </p>
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-[18px] font-semibold text-black/45">{t.navigation}</h3>
-          <div className="flex flex-col gap-3 text-[18px] text-black/85">
+          <h3 className="text-[16px] font-semibold text-black/45 md:text-[18px]">{t.navigation}</h3>
+          <div className="flex flex-col gap-3 text-[16px] text-black/85 md:text-[18px]">
             <a href="/landing" className="transition-colors hover:text-[#FF7857]">{t.home}</a>
             <a href="/landing#help" className="transition-colors hover:text-[#FF7857]">{t.about}</a>
             <a href="/landing#prices" className="transition-colors hover:text-[#FF7857]">{t.programs}</a>
@@ -75,8 +75,8 @@ export default function FooterBlock() {
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-[18px] font-semibold text-black/45">{t.contacts}</h3>
-          <div className="flex flex-col gap-3 text-[18px] leading-[1.5] text-black/85">
+          <h3 className="text-[16px] font-semibold text-black/45 md:text-[18px]">{t.contacts}</h3>
+          <div className="flex flex-col gap-3 text-[16px] leading-[1.5] text-black/85 md:text-[18px]">
             <a href="tel:+77474381892" className="transition-colors hover:text-[#FF7857]">
               +7 (747) 438-18-92
             </a>
@@ -90,8 +90,8 @@ export default function FooterBlock() {
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-[18px] font-semibold text-black/45">{t.address}</h3>
-          <p className="max-w-[250px] text-[18px] leading-[1.5] text-black/85">
+          <h3 className="text-[16px] font-semibold text-black/45 md:text-[18px]">{t.address}</h3>
+          <p className="max-w-[250px] text-[16px] leading-[1.5] text-black/85 md:text-[18px]">
             {t.city}
             <br />
             {t.street}

@@ -164,8 +164,8 @@ export default function BlockSeven() {
   }
 
   return (
-    <section id="team" className="scroll-mt-28 flex flex-col items-center gap-12">
-      <h2 className="text-[36px] font-bold">{t.title}</h2>
+    <section id="team" className="scroll-mt-28 flex flex-col items-center gap-10 md:gap-12">
+      <h2 className="text-center text-[28px] font-bold md:text-[36px]">{t.title}</h2>
       <div className="grid grid-cols-1 justify-items-center gap-x-[70px] gap-y-[32px] md:grid-cols-2 xl:grid-cols-3">
         {localizedTeams.map((team) => {
           const isExpanded = expandedIds.includes(team.id)

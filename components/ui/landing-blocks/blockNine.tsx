@@ -184,8 +184,8 @@ export default function BlockNine() {
 
   return (
     <section id="FAQ" className="scroll-mt-28 flex w-full flex-col items-center gap-5">
-      <h2 className="text-center text-[36px] font-bold">{t.title}</h2>
-      <p className="mb-[45px] w-[430px] text-center text-[18px]">
+      <h2 className="text-center text-[28px] font-bold md:text-[36px]">{t.title}</h2>
+      <p className="mb-8 w-full max-w-[430px] text-center text-[15px] md:mb-[45px] md:text-[18px]">
         {t.description}
       </p>
 
@@ -198,13 +198,13 @@ export default function BlockNine() {
               key={item.id}
               type="button"
               onClick={() => toggleItem(item.id)}
-              className={`group self-start rounded-[28px] border border-[#D8D8D8] px-5 py-5 text-left transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#CFCFCF] hover:shadow-[0_14px_34px_rgba(0,0,0,0.06)] ${
+              className={`group self-start rounded-[24px] border border-[#D8D8D8] px-4 py-4 text-left transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#CFCFCF] hover:shadow-[0_14px_34px_rgba(0,0,0,0.06)] md:rounded-[28px] md:px-5 md:py-5 ${
                 isOpen ? "bg-white" : "bg-white"
               }`}
             >
-              <div className="flex items-start justify-between gap-6">
+              <div className="flex items-start justify-between gap-3 md:gap-6">
                 <div className="max-w-[500px]">
-                  <h3 className="text-[20px] font-bold leading-[1.4] text-black transition-colors duration-300 group-hover:text-black/85">
+                  <h3 className="text-[17px] font-bold leading-[1.35] text-black transition-colors duration-300 group-hover:text-black/85 md:text-[20px]">
                     {item.question}
                   </h3>
 
@@ -213,14 +213,14 @@ export default function BlockNine() {
                       isOpen ? "mt-5 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"
                     }`}
                   >
-                    <p className="max-w-[510px] overflow-hidden text-[18px] leading-[1.5] text-black/85">
+                    <p className="max-w-[510px] overflow-hidden text-[15px] leading-[1.5] text-black/85 md:text-[18px]">
                       {item.answer}
                     </p>
                   </div>
                 </div>
 
                 <span
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[30px] leading-none text-white transition-all duration-300 ease-out group-hover:scale-105 ${
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[24px] leading-none text-white transition-all duration-300 ease-out group-hover:scale-105 md:h-10 md:w-10 md:text-[30px] ${
                     isOpen ? "bg-[#2BBFC0]" : "bg-[#FF7A59]"
                   }`}
                   aria-hidden="true"

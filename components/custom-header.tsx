@@ -90,8 +90,8 @@ export function HeaderCustom() {
   }
 
   return (
-    <div className="relative z-50 flex items-center justify-between">
-      <a href="/landing" className="text-[25px] font-medium">
+    <div className="relative z-50 flex items-center justify-between gap-3">
+      <a href="/landing" className="text-[22px] font-medium sm:text-[25px]">
         <span className="text-[#1AC1B9]">SOZLab</span>
         <span className="text-[#FF7857]">.kids</span>
       </a>
@@ -162,7 +162,7 @@ export function HeaderCustom() {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3">
         <LanguageButton />
 
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -170,7 +170,7 @@ export function HeaderCustom() {
             <Button
               variant="outline"
               size="icon"
-              className="flex rounded-full border-gray-300 bg-white xl:hidden"
+              className="flex h-10 w-10 rounded-full border-gray-300 bg-white xl:hidden max-[350px]:h-9 max-[350px]:w-9"
               aria-label="Open navigation menu"
             >
               <Menu className="h-5 w-5" />
@@ -178,7 +178,7 @@ export function HeaderCustom() {
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="w-[86vw] max-w-[320px] border-r border-black/10 bg-white p-0"
+            className="w-[88vw] max-w-[320px] border-r border-black/10 bg-white p-0 max-[350px]:w-[92vw]"
             onCloseAutoFocus={(event) => event.preventDefault()}
           >
             <SheetHeader className="border-b border-black/8 px-5 py-4">
