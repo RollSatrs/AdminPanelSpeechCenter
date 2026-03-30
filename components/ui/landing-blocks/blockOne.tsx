@@ -32,7 +32,7 @@ export default function BlockOne() {
     lang === "ru"
       ? "Здравствуйте! Хочу записаться на консультацию в SOZLAB.kids."
       : "Сәлеметсіз бе! SOZLAB.kids орталығына консультацияға жазылғым келеді."
-  const whatsappHref = `https://api.whatsapp.com/send/?phone=%2B77764401070&text=${encodeURIComponent(whatsappMessage)}&type=phone_number&app_absent=0`
+  const whatsappHref = `https://api.whatsapp.com/send/?phone=87474381892&text=${encodeURIComponent(whatsappMessage)}&type=phone_number&app_absent=0`
 
   return (
     <section className="relative min-h-[580px] overflow-hidden rounded-[30px] md:min-h-[724px] md:rounded-[74px] max-[350px]:rounded-[24px]">
@@ -92,7 +92,7 @@ export default function BlockOne() {
               </a>
 
               <a
-                href="https://api.whatsapp.com/send/?phone=%2B77764401070&text&type=phone_number&app_absent=0&utm_source=ig"
+                href="https://api.whatsapp.com/send/?phone=87474381892&text&type=phone_number&app_absent=0&utm_source=ig"
                 className="flex items-center gap-1 text-[13px] text-white sm:text-[15px]"
               >
                 <span>whatsapp</span>
