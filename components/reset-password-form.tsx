@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 import { AxiosError } from "axios"
 import { CircleCheckIcon, KeyRoundIcon, TriangleAlertIcon } from "lucide-react"
 import { useState } from "react"
@@ -21,10 +20,9 @@ import { Spinner } from "./ui/spinner"
 
 export function ResetPasswordForm({
   className,
+  token = "",
   ...props
-}: React.ComponentProps<"form">) {
-  const params = useSearchParams()
-  const token = params.get("token") ?? ""
+}: React.ComponentProps<"form"> & { token?: string }) {
 
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
