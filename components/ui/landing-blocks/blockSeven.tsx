@@ -155,7 +155,7 @@ export default function BlockSeven() {
     lang === "ru"
       ? "Здравствуйте! Хочу записаться на консультацию в SOZLAB.kids."
       : "Сәлеметсіз бе! SOZLAB.kids орталығына консультацияға жазылғым келеді."
-  const whatsappHref = `https://api.whatsapp.com/send/?phone=87474381892&text=${encodeURIComponent(whatsappMessage)}&type=phone_number&app_absent=0`
+  const whatsappHref = `https://wa.me/77474381892?text=${encodeURIComponent(whatsappMessage)}`
 
   const toggleDescription = (id: string) => {
     setExpandedIds((prev) =>

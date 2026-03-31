@@ -11,8 +11,13 @@ const rubik = Rubik({
 })
 
 export const metadata: Metadata = {
-  title: "SpeechCenter",
-  description: "SpeechCenter app",
+  title: "SOZLab",
+  description: "SOZLab Speech Center",
+  icons: {
+    icon: "/logo-sozlab.svg",
+    shortcut: "/logo-sozlab.svg",
+    apple: "/logo-sozlab.svg",
+  },
 }
 
 export default function RootLayout({
