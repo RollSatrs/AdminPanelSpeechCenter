@@ -9,7 +9,7 @@ export async function ensureBotRuntimeTable() {
 
   await db.execute(sql`
     CREATE TABLE IF NOT EXISTS "bot_runtime_state" (
-      "id" integer PRIMARY KEY,
+      "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       "status" varchar(32) NOT NULL,
       "qr_data_url" text,
       "last_error" text,
@@ -21,6 +21,27 @@ export async function ensureBotRuntimeTable() {
       "control_result" text,
       "updated_at" timestamp with time zone NOT NULL DEFAULT now()
     );
+  `);
+
+  await db.execute(sql`
+    DO $$
+    BEGIN
+      IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'bot_runtime_state'
+          AND column_name = 'id'
+          AND is_identity = 'NO'
+      ) THEN
+        IF pg_get_serial_sequence('bot_runtime_state', 'id') IS NULL THEN
+          CREATE SEQUENCE IF NOT EXISTS bot_runtime_state_id_seq;
+          EXECUTE 'ALTER SEQUENCE bot_runtime_state_id_seq OWNED BY "bot_runtime_state"."id"';
+          EXECUTE 'ALTER TABLE "bot_runtime_state" ALTER COLUMN "id" SET DEFAULT nextval(''bot_runtime_state_id_seq'')';
+          EXECUTE 'SELECT setval(''bot_runtime_state_id_seq'', COALESCE((SELECT MAX(id) FROM "bot_runtime_state"), 1), true)';
+        END IF;
+      END IF;
+    END $$;
   `);
 
   await db.execute(sql`ALTER TABLE "bot_runtime_state" ADD COLUMN IF NOT EXISTS "control_action" varchar(32);`);

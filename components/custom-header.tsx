@@ -31,7 +31,7 @@ const headerCopy = {
     team: "Команда",
     reviews: "Отзывы",
     programs: "Программы",
-    prices: "Цены",
+    format: "Формат обучения",
     faq: "FAQ",
     contacts: "Контакты",
     address: "Адрес",
@@ -45,7 +45,7 @@ const headerCopy = {
     team: "Команда",
     reviews: "Пікірлер",
     programs: "Бағдарламалар",
-    prices: "Бағалар",
+    format: "Оқу форматы",
     faq: "FAQ",
     contacts: "Байланыс",
     address: "Мекенжай",
@@ -63,7 +63,7 @@ export function HeaderCustom() {
     { label: t.working, href: "/landing#working", sectionId: "working" },
     { label: t.team, href: "/landing#team", sectionId: "team" },
     { label: t.reviews, href: "/landing#reviews", sectionId: "reviews" },
-    { label: t.prices, href: "/landing#prices", sectionId: "prices" },
+    { label: t.format, href: "/landing#prices", sectionId: "prices" },
     { label: t.faq, href: "/landing#FAQ", sectionId: "FAQ" },
     { label: t.contacts, href: "/landing#contacts", sectionId: "contacts" },
     { label: t.address, href: "/landing#address", sectionId: "address" },
@@ -137,7 +137,7 @@ export function HeaderCustom() {
             <NavigationMenuContent>
               <ul className="grid w-[170px] gap-2 p-1">
                 <li>
-                  <NavigationMenuLink href="/landing#prices">{t.prices}</NavigationMenuLink>
+                  <NavigationMenuLink href="/landing#prices">{t.format}</NavigationMenuLink>
                 </li>
                 <li>
                   <NavigationMenuLink href="/landing#FAQ">{t.faq}</NavigationMenuLink>

@@ -30,7 +30,7 @@ export default function FooterBlock() {
       contacts: "Контакты",
       address: "Адрес",
       city: "Семей",
-      street: "ул. К. Мухамедханова, 23 кабинет",
+      street: "ул. К. Мухамедханова 45, 23 кабинет",
       rights: "© 2026 SOZLab.kids. Все права защищены.",
     },
     kz: {
@@ -79,12 +79,6 @@ export default function FooterBlock() {
           <div className="flex flex-col gap-3 text-[16px] leading-[1.5] text-black/85 md:text-[18px]">
             <a href="tel:+77474381892" className="transition-colors hover:text-[#FF7857]">
               +7 (747) 438-18-92
-            </a>
-            <a
-              href="mailto:hello@sozlabkids.kz"
-              className="transition-colors hover:text-[#FF7857]"
-            >
-              hello@sozlabkids.kz
             </a>
           </div>
         </div>
