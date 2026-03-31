@@ -22,7 +22,12 @@ export async function POST(req: NextRequest) {
       "control_requested_at" = now(),
       "control_processed_at" = null,
       "control_result" = null
-    WHERE "id" = 1;
+    WHERE "id" = (
+      SELECT "id"
+      FROM "bot_runtime_state"
+      ORDER BY "id" ASC
+      LIMIT 1
+    );
   `);
 
   return NextResponse.json({ ok: true, token });

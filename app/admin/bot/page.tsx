@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
+import { AxiosError } from "axios"
 import { IconBolt, IconCircleCheck, IconLoader2, IconQrcode, IconWifiOff } from "@tabler/icons-react"
 import Image from "next/image"
 import { api } from "@/lib/api"
@@ -63,6 +64,7 @@ export default function BotPage() {
   const [actionLoading, setActionLoading] = React.useState(false)
   const [stopLoading, setStopLoading] = React.useState(false)
   const [actionError, setActionError] = React.useState<string | null>(null)
+  const [loadError, setLoadError] = React.useState<string | null>(null)
 
   const load = React.useCallback(async () => {
     const [me, status] = await Promise.all([
@@ -78,9 +80,17 @@ export default function BotPage() {
 
     async function init() {
       try {
+        setLoadError(null)
         await load()
-      } catch {
-        if (!cancelled) router.push("/admin/login")
+      } catch (err) {
+        if (cancelled) return
+
+        if (err instanceof AxiosError && err.response?.status === 401) {
+          router.push("/admin/login")
+          return
+        }
+
+        setLoadError("Не удалось загрузить статус бота")
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -103,7 +113,11 @@ export default function BotPage() {
   }, [load, router])
 
   if (loading || !bot) {
-    return <div className="p-6 text-sm text-muted-foreground">Загрузка статуса бота...</div>
+    return (
+      <div className="p-6 text-sm text-muted-foreground">
+        {loadError ?? "Загрузка статуса бота..."}
+      </div>
+    )
   }
 
   const isConnected = bot.status === "connected"

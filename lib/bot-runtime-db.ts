@@ -31,9 +31,12 @@ export async function ensureBotRuntimeTable() {
   await db.execute(sql`ALTER TABLE "bot_runtime_state" ADD COLUMN IF NOT EXISTS "heartbeat_at" timestamp with time zone;`);
 
   await db.execute(sql`
-    INSERT INTO "bot_runtime_state" ("id", "status")
-    VALUES (1, 'stopped')
-    ON CONFLICT ("id") DO NOTHING;
+    INSERT INTO "bot_runtime_state" ("status")
+    SELECT 'stopped'
+    WHERE NOT EXISTS (
+      SELECT 1
+      FROM "bot_runtime_state"
+    );
   `);
 
   ensured = true;

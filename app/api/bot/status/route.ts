@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
       "heartbeat_at",
       "updated_at"
     FROM "bot_runtime_state"
-    WHERE "id" = 1
+    ORDER BY "id" ASC
     LIMIT 1;
   `);
 
