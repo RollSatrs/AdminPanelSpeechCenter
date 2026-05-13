@@ -322,7 +322,7 @@ export default function AnalyticsPage() {
                           className="fill-background"
                           stroke="none"
                           fontSize={12}
-                          formatter={(value) => (typeof value === "string" ? pieLabels[value] ?? value : value)}
+                          formatter={(value: string | number | boolean | null | undefined) => (typeof value === "string" ? pieLabels[value] ?? value : value)}
                         />
                       </Pie>
                     </PieChart>
