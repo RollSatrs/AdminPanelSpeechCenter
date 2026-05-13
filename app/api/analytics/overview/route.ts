@@ -22,6 +22,15 @@ function percentChange(current: number, previous: number): number | null {
   return ((current - previous) / previous) * 100
 }
 
+function resultColor(label: string) {
+  if (label === "Возрастная норма") return "#22c55e"
+  if (label === "Норма") return "#14b8a6"
+  if (label === "Нужно наблюдение") return "#f59e0b"
+  if (label === "Зона риска") return "#f97316"
+  if (label === "Высокий риск ЗРР") return "#ef4444"
+  return "var(--chart-4)"
+}
+
 function parseYear(raw: string | null, fallback: number): number {
   const y = Number(raw)
   if (!Number.isInteger(y) || y < 2000 || y > 2100) return fallback
@@ -174,19 +183,11 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const palette = [
-      "var(--chart-1)",
-      "var(--chart-2)",
-      "var(--chart-3)",
-      "var(--chart-4)",
-      "var(--chart-5)",
-      "var(--chart-1)",
-    ]
     const resultsDistribution = Array.from(resultsCurrentMap.entries()).map(([label, value], idx) => ({
       key: `result_${idx + 1}`,
       label,
       value,
-      color: palette[idx % palette.length],
+      color: resultColor(label),
     }))
 
     const monthlyParentsRows = await db

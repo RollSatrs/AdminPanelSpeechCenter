@@ -23,6 +23,31 @@ async function ensureLandingLeadsTable() {
   `)
 }
 
+export async function POST(req: NextRequest) {
+  try {
+    await ensureLandingLeadsTable()
+
+    const body = await req.json().catch(() => null)
+    const fullName = String(body?.fullname ?? "").trim()
+    const phone = String(body?.phone ?? "").trim()
+    const question = String(body?.question ?? "").trim() || "Заявка с лендинга"
+
+    if (fullName.length < 2 || phone.length < 5) {
+      return NextResponse.json({ message: "Некорректные данные заявки" }, { status: 400 })
+    }
+
+    await db.execute(sql`
+      INSERT INTO "landing_leads" ("fullname", "phone", "question")
+      VALUES (${fullName}, ${phone}, ${question});
+    `)
+
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error("leads create error", error)
+    return NextResponse.json({ message: "Internal error" }, { status: 500 })
+  }
+}
+
 export async function GET(req: NextRequest) {
   try {
     const authorized = await isAuthorizedAdmin(req)

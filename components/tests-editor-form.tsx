@@ -88,6 +88,43 @@ export function TestsEditorForm({ mode, testId, initial }: TestsEditorFormProps)
     }, 0)
   }, [draft.questions])
 
+  const sortedRules = useMemo(() => {
+    return [...draft.rules].sort((a, b) => a.minScore - b.minScore || a.maxScore - b.maxScore)
+  }, [draft.rules])
+
+  const rulesCoverage = useMemo(() => {
+    if (sortedRules.length === 0) return { gaps: [] as string[], overlaps: [] as string[] }
+
+    const gaps: string[] = []
+    const overlaps: string[] = []
+
+    if (sortedRules[0].minScore > 0) {
+      gaps.push(`Баллы ${0}-${sortedRules[0].minScore - 1} сейчас не покрыты правилами.`)
+    }
+
+    for (let index = 1; index < sortedRules.length; index += 1) {
+      const prev = sortedRules[index - 1]
+      const current = sortedRules[index]
+
+      if (current.minScore > prev.maxScore + 1) {
+        gaps.push(`Баллы ${prev.maxScore + 1}-${current.minScore - 1} сейчас не покрыты правилами.`)
+      }
+
+      if (current.minScore <= prev.maxScore) {
+        overlaps.push(
+          `Диапазоны ${prev.minScore}-${prev.maxScore} и ${current.minScore}-${current.maxScore} пересекаются.`
+        )
+      }
+    }
+
+    const lastRule = sortedRules[sortedRules.length - 1]
+    if (lastRule.maxScore < maxPossibleScore) {
+      gaps.push(`Баллы ${lastRule.maxScore + 1}-${maxPossibleScore} сейчас не покрыты правилами.`)
+    }
+
+    return { gaps, overlaps }
+  }, [maxPossibleScore, sortedRules])
+
   const isBaseStepValid =
     draft.name.trim().length > 0 &&
     Number.isInteger(draft.ageFrom) &&
@@ -384,6 +421,36 @@ export function TestsEditorForm({ mode, testId, initial }: TestsEditorFormProps)
             <span className="font-semibold">{maxPossibleScore}</span>
           </div>
 
+          <div className="space-y-2 rounded-lg border p-4 text-sm">
+            <div className="font-medium">Как админ видит интерпретацию результатов</div>
+            <div className="text-muted-foreground">
+              Укажите диапазоны баллов и подпишите, какой итог получает пользователь при попадании в этот диапазон.
+            </div>
+            {sortedRules.length > 0 ? (
+              <div className="space-y-1">
+                {sortedRules.map((rule, index) => (
+                  <div key={`${rule.label}-${index}`}>
+                    <span className="font-medium">
+                      {rule.minScore}-{rule.maxScore} баллов
+                    </span>
+                    {" -> "}
+                    <span>{rule.label || "Без названия результата"}</span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {rulesCoverage.gaps.map((message) => (
+              <div key={message} className="text-amber-600">
+                {message}
+              </div>
+            ))}
+            {rulesCoverage.overlaps.map((message) => (
+              <div key={message} className="text-red-600">
+                {message}
+              </div>
+            ))}
+          </div>
+
           {draft.rules.map((rule, index) => (
             <div key={index} className="space-y-2 rounded-lg border p-4">
               <div className="flex items-center justify-between">
@@ -415,6 +482,11 @@ export function TestsEditorForm({ mode, testId, initial }: TestsEditorFormProps)
                   value={rule.label}
                   onChange={(e) => updateRule(index, { label: e.target.value })}
                 />
+              </div>
+              <div className="text-muted-foreground text-sm">
+                Если пользователь наберёт от <span className="font-medium">{rule.minScore}</span> до{" "}
+                <span className="font-medium">{rule.maxScore}</span> баллов, он получит результат{" "}
+                <span className="font-medium">{rule.label || "без названия"}</span>.
               </div>
               <Input
                 placeholder="Текст результата RU"

@@ -1,5 +1,7 @@
 import BlockOne from "@/components/ui/landing-blocks/blockOne"
 import BlockTwo from "@/components/ui/landing-blocks/blockTwo"
+import BlockTest from "@/components/ui/landing-blocks/blockTest"
+import BlockDiagnosticsLead from "@/components/ui/landing-blocks/blockDiagnosticsLead"
 import BlockThree from "@/components/ui/landing-blocks/blockThree"
 import BlockFour from "@/components/ui/landing-blocks/blockFour"
 import BlockFive from "@/components/ui/landing-blocks/blockFive"
@@ -15,6 +17,8 @@ export default function LandingPage() {
     <div className="flex flex-col gap-[72px]">
       <BlockOne />
       <BlockTwo />
+      <BlockTest />
+      <BlockDiagnosticsLead />
       <BlockThree />
       <BlockFour />
       <BlockFive />

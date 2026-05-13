@@ -195,9 +195,14 @@ export default async function ParentPage({ params }: ParentPageProps) {
         <main className="mx-auto w-full max-w-6xl space-y-4 p-4 md:p-6">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold">Карточка родителя</h1>
-            <Button asChild variant="outline">
-              <Link href="/admin">Назад</Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button asChild variant="outline">
+                <Link href={`/admin/parent/${parentId}/exercises`}>Назначить упражнения</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/admin">Назад</Link>
+              </Button>
+            </div>
           </div>
 
           <div className="grid gap-2 rounded-lg border p-4 text-sm md:grid-cols-3">

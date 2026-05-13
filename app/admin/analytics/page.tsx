@@ -178,6 +178,10 @@ export default function AnalyticsPage() {
     }))
   }, [data?.resultsDistribution])
 
+  const pieLabels = React.useMemo(() => {
+    return Object.fromEntries((data?.resultsDistribution ?? []).map((item) => [item.key, item.label]))
+  }, [data?.resultsDistribution])
+
   if (loading) {
     return <div className="p-6 text-sm text-muted-foreground">Загрузка аналитики...</div>
   }
@@ -318,7 +322,7 @@ export default function AnalyticsPage() {
                           className="fill-background"
                           stroke="none"
                           fontSize={12}
-                          formatter={(value: string) => pieConfig[value]?.label}
+                          formatter={(value) => (typeof value === "string" ? pieLabels[value] ?? value : value)}
                         />
                       </Pie>
                     </PieChart>
